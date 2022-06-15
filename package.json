@@ -1,0 +1,94 @@
+{
+  "name": "@sanity/code-input",
+  "version": "3.0.0-v3-studio.1",
+  "description": "Ace editor for editing code",
+  "source": "./src/index.ts",
+  "exports": {
+    ".": {
+      "require": "./lib/cjs/index.js",
+      "default": "./lib/esm/index.js"
+    }
+  },
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
+  "types": "./lib/types/index.d.ts",
+  "files": [
+    "src",
+    "lib",
+    "v2-incompatible.js",
+    "sanity.json"
+  ],
+  "author": "Sanity.io <hello@sanity.io>",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rimraf lib",
+    "prebuild": "npm run clean && plugin-kit verify-package --silent",
+    "build": "parcel build --no-cache",
+    "link-watch": "plugin-kit link-watch",
+    "watch": "parcel watch",
+    "prepublishOnly": "npm run build",
+    "compile": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier src -w",
+    "prepare": "husky install"
+  },
+  "keywords": [
+    "sanity",
+    "cms",
+    "headless",
+    "realtime",
+    "content",
+    "code-input",
+    "sanity-plugin",
+    "code-editor"
+  ],
+  "dependencies": {
+    "@sanity/icons": "^1.2.8",
+    "@sanity/incompatible-plugin": "^0.0.1-studio-v3.1",
+    "@sanity/ui": "^0.37.8",
+    "ace-builds": "^1.4.13",
+    "react-ace": "^9.5.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^16.1.0",
+    "@commitlint/config-conventional": "^15.0.0",
+    "@parcel/packager-ts": "^2.6.0",
+    "@parcel/transformer-typescript-types": "^2.6.0",
+    "@sanity/plugin-kit": "^0.0.1-studio-v3.3",
+    "@types/styled-components": "^5.1.25",
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.7.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-sanity": "^5.1.0",
+    "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.5.0",
+    "husky": "^7.0.0",
+    "lint-staged": "^12.4.1",
+    "parcel": "^2.6.0",
+    "prettier": "^2.6.2",
+    "react": "^17.0.0 || ^18.0.0",
+    "rimraf": "^3.0.2",
+    "sanity": "^3.0.0-dev-preview.7",
+    "styled-components": "^5.2.0",
+    "typescript": "^4.6.4"
+  },
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0",
+    "sanity": "dev-preview",
+    "styled-components": "^5.2.0"
+  },
+  "bugs": {
+    "url": "https://github.com/sanity-io/plugin-kit/issues"
+  },
+  "homepage": "https://www.sanity.io/",
+  "sanityExchangeUrl": "https://www.sanity.io/plugins/code-input",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sanity-io/plugin-kit.git"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
