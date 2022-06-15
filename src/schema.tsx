@@ -1,22 +1,19 @@
-import React from 'react'
 import {CodeBlockIcon} from '@sanity/icons'
 import {CodeInput} from './CodeInput'
 import PreviewCode, {PreviewCodeProps} from './PreviewCode'
 import {getMedia} from './getMedia'
+import {defineType} from 'sanity'
 
 export type {CodeInputProps, CodeSchemaType} from './CodeInput'
 
 export type {CodeInputLanguage, CodeInputValue} from './types'
+export type {PreviewCode, PreviewCodeProps, CodeInput}
 
-const Preview = (props: PreviewCodeProps) => {
-  return <PreviewCode {...props} />
-}
-
-export default {
+export default defineType({
   name: 'code',
   type: 'object',
   title: 'Code',
-  components: {input: CodeInput},
+  components: {input: CodeInput, preview: PreviewCode},
   icon: CodeBlockIcon,
   fields: [
     {
@@ -62,8 +59,7 @@ export default {
       return {
         title: value.filename || (value.language || 'unknown').toUpperCase(),
         media: getMedia(value?.language),
-        extendedPreview: <Preview value={value} />,
       }
     },
   },
-}
+})

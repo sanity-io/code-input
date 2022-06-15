@@ -182,7 +182,7 @@ npm run link-watch
 In another shell, `cd` to your test studio and run:
 
 ```bash
-npx yalc add @sanity/code-input --link && yarn install
+npx yalc add @sanity/code-input && npx yalc link @sanity/code-input && npm install
 ```
 
 Now, changes in this repo will be automatically built and pushed to the studio,
