@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       release:
-        description: 'Release new version with semantic-release'
+        description: 'Release new version'
         required: true
         default: false
         type: boolean
