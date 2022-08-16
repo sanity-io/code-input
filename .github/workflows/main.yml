@@ -1,27 +1,69 @@
-name: CI
+name: CI & Release
 on:
   push:
   workflow_dispatch:
+    inputs:
+      release:
+        description: 'Release new version'
+        required: true
+        default: false
+        type: boolean
+      skipTests:
+        description: 'Skip tests'
+        required: true
+        default: false
+        type: boolean
+
 jobs:
-  test:
-    runs-on: ${{ matrix.platform }}
-    name: Node.js ${{ matrix.node-version }} / ${{ matrix.platform }}
-    strategy:
-      fail-fast: false
-      matrix:
-        platform: [ubuntu-latest, macos-latest]
-        node-version:
-          - 16
+  build:
+    name: 'Lint & Build'
+    runs-on: ubuntu-latest
     steps:
       - name: Set git to use LF
         run: |
           git config --global core.autocrlf false
           git config --global core.eol lf
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run lint --if-present
+      - run: npm run build
+
+  test:
+    name: 'Test'
+    needs: build
+    strategy:
+      matrix:
+        node-version: [ 16.x, 18.x ]
+        platform: [ ubuntu-latest, macos-latest ]
+    runs-on: ${{ matrix.platform }}
+    if: inputs.skipTests != true
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'npm'
       - run: npm install
-      - run: npm run lint
-      - run: npm run build
-      #- run: npm test
+      - run: npm test
+
+  release:
+    name: 'Semantic release'
+    needs: test
+    runs-on: ubuntu-latest
+    if: inputs.release == true
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+          cache: 'npm'
+      - run: npm install
+      # Branches that will release new versions is defined in .releaserc.json
+      - run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}

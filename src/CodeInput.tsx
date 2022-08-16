@@ -1,14 +1,11 @@
 /* eslint-disable react/jsx-handler-names */
-import React, {useCallback, useEffect, useImperativeHandle, useMemo, useRef} from 'react'
+import React, {Suspense, useCallback, useEffect, useImperativeHandle, useMemo, useRef} from 'react'
 import {FieldMember, MemberField, ObjectInputProps, set, setIfMissing, unset} from 'sanity/form'
-import {ObjectSchemaType} from 'sanity'
-import {Card, Select, Stack} from '@sanity/ui'
-import AceEditor from 'react-ace'
+import {InputProps, ObjectSchemaType, StringInputProps, useColorScheme} from 'sanity'
+import {Card, Select, Stack, ThemeColorSchemeKey} from '@sanity/ui'
 import styled from 'styled-components'
 import createHighlightMarkers, {highlightMarkersCSS} from './createHighlightMarkers'
 import {CodeInputLanguage, CodeInputValue} from './types'
-import './editorSupport'
-
 import {
   ACE_EDITOR_PROPS,
   ACE_SET_OPTIONS,
@@ -19,7 +16,7 @@ import {
   SUPPORTED_LANGUAGES,
   SUPPORTED_THEMES,
 } from './config'
-import {useColorScheme, InputProps, StringInputProps} from 'sanity'
+import {useAceEditor} from './ace-editor/AceEditorLazy'
 
 export type {CodeInputLanguage, CodeInputValue} from './types'
 
@@ -48,7 +45,7 @@ const EditorContainer = styled(Card)`
 `
 
 export type CodeSchemaType = Omit<ObjectSchemaType, 'options'> & {
-  options: {
+  options?: {
     theme?: string
     darkTheme?: string
     languageAlternatives: CodeInputLanguage[]
@@ -57,7 +54,10 @@ export type CodeSchemaType = Omit<ObjectSchemaType, 'options'> & {
   }
 }
 
-export type CodeInputProps = ObjectInputProps<CodeInputValue, CodeSchemaType>
+export type CodeInputProps = ObjectInputProps<CodeInputValue, CodeSchemaType> & {
+  /** @internal */
+  colorScheme?: ThemeColorSchemeKey
+}
 
 // Returns a string with the mode name if supported (because aliases), otherwise false
 function isSupportedLanguage(mode: string) {
@@ -268,36 +268,54 @@ export function CodeInput(props: CodeInputProps) {
     [languages]
   )
 
+  const AceEditor = useAceEditor()
+
   const renderCodeInput = useCallback(
     (inputProps) => {
       return (
         <EditorContainer radius={1} shadow={1} readOnly={readOnly}>
-          <AceEditor
-            ref={aceEditorRef}
-            mode={mode}
-            theme={theme}
-            width="100%"
-            onChange={handleCodeChange}
-            name={inputProps.id}
-            value={inputProps.value}
-            markers={
-              value && value.highlightedLines
-                ? createHighlightMarkers(value.highlightedLines)
-                : undefined
-            }
-            onLoad={handleEditorLoad}
-            readOnly={readOnly}
-            tabSize={2}
-            wrapEnabled
-            setOptions={ACE_SET_OPTIONS}
-            editorProps={ACE_EDITOR_PROPS}
-            onFocus={handleCodeFocus}
-            onBlur={onBlur}
-          />
+          {AceEditor && (
+            <Suspense fallback={<div>Loading code editor...</div>}>
+              (
+              <AceEditor
+                ref={aceEditorRef}
+                mode={mode}
+                theme={theme}
+                width="100%"
+                onChange={handleCodeChange}
+                name={inputProps.id}
+                value={inputProps.value}
+                markers={
+                  value && value.highlightedLines
+                    ? createHighlightMarkers(value.highlightedLines)
+                    : undefined
+                }
+                onLoad={handleEditorLoad}
+                readOnly={readOnly}
+                tabSize={2}
+                wrapEnabled
+                setOptions={ACE_SET_OPTIONS}
+                editorProps={ACE_EDITOR_PROPS}
+                onFocus={handleCodeFocus}
+                onBlur={onBlur}
+              />
+              )
+            </Suspense>
+          )}
         </EditorContainer>
       )
     },
-    [theme, handleCodeChange, handleCodeFocus, handleEditorLoad, mode, onBlur, readOnly, value]
+    [
+      AceEditor,
+      theme,
+      handleCodeChange,
+      handleCodeFocus,
+      handleEditorLoad,
+      mode,
+      onBlur,
+      readOnly,
+      value,
+    ]
   )
 
   return (
