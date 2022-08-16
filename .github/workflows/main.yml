@@ -8,6 +8,11 @@ on:
         required: true
         default: false
         type: boolean
+      skipTests:
+        description: 'Skip tests'
+        required: true
+        default: false
+        type: boolean
 
 jobs:
   build:
@@ -35,6 +40,7 @@ jobs:
         node-version: [ 16.x, 18.x ]
         platform: [ ubuntu-latest, macos-latest ]
     runs-on: ${{ matrix.platform }}
+    if: inputs.skipTests != true
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -56,8 +62,8 @@ jobs:
           node-version: lts/*
           cache: 'npm'
       - run: npm install
-      # Branches that will release new versions is defined in .releaserc.js
+      # Branches that will release new versions is defined in .releaserc.json
       - run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
