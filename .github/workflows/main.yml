@@ -8,11 +8,6 @@ on:
         required: true
         default: false
         type: boolean
-      skipTests:
-        description: 'Skip tests'
-        required: true
-        default: false
-        type: boolean
 
 jobs:
   build:
@@ -37,10 +32,9 @@ jobs:
     needs: build
     strategy:
       matrix:
-        node-version: [ 16.x, 18.x ]
-        platform: [ ubuntu-latest, macos-latest ]
+        node-version: [16.x, 18.x]
+        platform: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.platform }}
-    if: inputs.skipTests != true
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
