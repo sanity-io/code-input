@@ -90,13 +90,13 @@
     "styled-components": "^5.2.0"
   },
   "bugs": {
-    "url": "https://github.com/sanity-io/plugin-kit/issues"
+    "url": "https://github.com/sanity-io/code-input/issues"
   },
   "homepage": "https://www.sanity.io/",
   "sanityExchangeUrl": "https://www.sanity.io/plugins/code-input",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sanity-io/plugin-kit.git"
+    "url": "git+https://github.com/sanity-io/code-input.git"
   },
   "engines": {
     "node": ">=14.0.0"
