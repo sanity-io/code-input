@@ -5,7 +5,7 @@ import {Box} from '@sanity/ui'
 import {ACE_EDITOR_PROPS, ACE_SET_OPTIONS} from './config'
 import createHighlightMarkers from './createHighlightMarkers'
 import {CodeInputType, CodeInputValue} from './types'
-import './editorSupport'
+import './ace-editor/editorSupport'
 
 const PreviewContainer = styled(Box)`
   position: relative;
