@@ -2,7 +2,7 @@ import ReactAce from 'react-ace'
 export default ReactAce
 
 // NOTE: MAKE SURE THESE ALIGN WITH SUPPORTED_LANGUAGES in ./config
-import '../groq'
+import './groq'
 
 import 'ace-builds/src-noconflict/mode-batchfile'
 import 'ace-builds/src-noconflict/mode-csharp'
