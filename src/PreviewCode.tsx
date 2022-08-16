@@ -1,11 +1,10 @@
-import React, {useCallback, useEffect, useRef} from 'react'
-import AceEditor from 'react-ace'
+import React, {Suspense, useCallback, useEffect, useRef} from 'react'
 import styled from 'styled-components'
 import {Box} from '@sanity/ui'
 import {ACE_EDITOR_PROPS, ACE_SET_OPTIONS} from './config'
 import createHighlightMarkers from './createHighlightMarkers'
 import {CodeInputType, CodeInputValue} from './types'
-import './ace-editor/editorSupport'
+import {useAceEditor} from './ace-editor/AceEditorLazy'
 
 const PreviewContainer = styled(Box)`
   position: relative;
@@ -32,6 +31,7 @@ export interface PreviewCodeProps {
 }
 
 export default function PreviewCode(props: PreviewCodeProps) {
+  const AceEditor = useAceEditor()
   const aceEditorRef = useRef<any>()
 
   useEffect(() => {
@@ -58,30 +58,36 @@ export default function PreviewCode(props: PreviewCodeProps) {
   return (
     <PreviewContainer>
       <PreviewInner padding={4}>
-        <AceEditor
-          ref={aceEditorRef}
-          focus={false}
-          mode={mode}
-          theme="monokai"
-          width="100%"
-          onChange={handleEditorChange}
-          maxLines={200}
-          readOnly
-          wrapEnabled
-          showPrintMargin={false}
-          highlightActiveLine={false}
-          cursorStart={-1}
-          value={(value && value.code) || ''}
-          markers={
-            value && value.highlightedLines
-              ? createHighlightMarkers(value.highlightedLines)
-              : undefined
-          }
-          tabSize={2}
-          showGutter={false}
-          setOptions={ACE_SET_OPTIONS}
-          editorProps={ACE_EDITOR_PROPS}
-        />
+        {AceEditor && (
+          <Suspense fallback={<div>Loading code editor...</div>}>
+            (
+            <AceEditor
+              ref={aceEditorRef}
+              focus={false}
+              mode={mode}
+              theme="monokai"
+              width="100%"
+              onChange={handleEditorChange}
+              maxLines={200}
+              readOnly
+              wrapEnabled
+              showPrintMargin={false}
+              highlightActiveLine={false}
+              cursorStart={-1}
+              value={(value && value.code) || ''}
+              markers={
+                value && value.highlightedLines
+                  ? createHighlightMarkers(value.highlightedLines)
+                  : undefined
+              }
+              tabSize={2}
+              showGutter={false}
+              setOptions={ACE_SET_OPTIONS}
+              editorProps={ACE_EDITOR_PROPS}
+            />
+            )
+          </Suspense>
+        )}
       </PreviewInner>
     </PreviewContainer>
   )
