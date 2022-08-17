@@ -33,7 +33,7 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm run lint --if-present
-      - run: npm run build
+      - run: npm run prepublishOnly --if-present
 
   test:
     name: 'Test'
@@ -49,7 +49,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      - run: npm install
+      - run: npm ci
       - run: npm test
 
   release:
@@ -67,7 +67,7 @@ jobs:
         with:
           node-version: lts/*
           cache: 'npm'
-      - run: npm install
+      - run: npm ci
       # Branches that will release new versions are defined in .releaserc.json
       - run: npx semantic-release
         env:
