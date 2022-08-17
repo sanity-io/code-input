@@ -1,6 +1,5 @@
 name: CI & Release
 on:
-  push:
   workflow_dispatch:
     inputs:
       release:
@@ -10,6 +9,14 @@ on:
         type: boolean
 
 jobs:
+  log-the-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Release new version: $RELEASE"
+        env:
+          RELEASE: ${{ inputs.release }}
+
   build:
     name: 'Lint & Build'
     runs-on: ubuntu-latest

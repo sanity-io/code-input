@@ -276,7 +276,6 @@ export function CodeInput(props: CodeInputProps) {
         <EditorContainer radius={1} shadow={1} readOnly={readOnly}>
           {AceEditor && (
             <Suspense fallback={<div>Loading code editor...</div>}>
-              (
               <AceEditor
                 ref={aceEditorRef}
                 mode={mode}
@@ -299,7 +298,6 @@ export function CodeInput(props: CodeInputProps) {
                 onFocus={handleCodeFocus}
                 onBlur={onBlur}
               />
-              )
             </Suspense>
           )}
         </EditorContainer>
