@@ -1,6 +1,6 @@
 import {CodeInputLanguage} from './types'
 
-// NOTE: MAKE SURE THESE ALIGN WITH IMPORTS IN ./editorSupport
+// NOTE: MAKE SURE THESE ALIGN WITH IMPORTS IN ./ace-editor/editorSupport
 export const SUPPORTED_LANGUAGES: CodeInputLanguage[] = [
   {title: 'Batch file', value: 'batchfile'},
   {title: 'C#', value: 'csharp'},

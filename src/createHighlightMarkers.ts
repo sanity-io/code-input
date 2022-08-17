@@ -1,4 +1,4 @@
-import {IMarker} from 'react-ace'
+import type {IMarker} from 'react-ace'
 import {css} from 'styled-components'
 
 export const highlightMarkersCSS = css`
