@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0-v3-studio.6](https://github.com/sanity-io/code-input/compare/v3.0.0-v3-studio.5...v3.0.0-v3-studio.6) (2022-08-17)
+
+### Bug Fixes
+
+- **deps:** update sanity packages to v1 (major) ([#10](https://github.com/sanity-io/code-input/issues/10)) ([260a911](https://github.com/sanity-io/code-input/commit/260a911fdf3715d5d73554488595209b1aad9e65))
+
 # [3.0.0-v3-studio.5](https://github.com/sanity-io/code-input/compare/v3.0.0-v3-studio.4...v3.0.0-v3-studio.5) (2022-08-17)
 
 ### Bug Fixes
