@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0-v3-studio.7](https://github.com/sanity-io/code-input/compare/v3.0.0-v3-studio.6...v3.0.0-v3-studio.7) (2022-08-17)
+
+### Bug Fixes
+
+- makes PreviewCode also load ace async ([#11](https://github.com/sanity-io/code-input/issues/11)) ([16eb077](https://github.com/sanity-io/code-input/commit/16eb077901266b28038142408d2e74f2c20e5aec))
+
 # [3.0.0-v3-studio.6](https://github.com/sanity-io/code-input/compare/v3.0.0-v3-studio.5...v3.0.0-v3-studio.6) (2022-08-17)
 
 ### Bug Fixes
