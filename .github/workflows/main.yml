@@ -20,9 +20,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "Release new version: $RELEASE"
+          echo "Inputs: $INPUTS"
         env:
-          RELEASE: ${{ inputs.release }}
+          INPUTS: ${{ toJSON(inputs) }}
 
   build:
     name: Lint & Build
