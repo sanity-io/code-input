@@ -5,6 +5,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-v3-studio.8](https://github.com/sanity-io/code-input/compare/v3.0.0-v3-studio.7...v3.0.0-v3-studio.8) (2022-09-15)
+
+### Bug Fixes
+
+- **deps:** react-dom as peer ([bee9c70](https://github.com/sanity-io/code-input/commit/bee9c7042f9e62a48f22c9ad2d505e8fc3c70c12))
+- **deps:** sanity 3.0.0-dev-preview.17 and ui 0.38 ([4bef2ab](https://github.com/sanity-io/code-input/commit/4bef2ab5505144da4a286c9481c12f85c61af11c))
+
 # [3.0.0-v3-studio.7](https://github.com/sanity-io/code-input/compare/v3.0.0-v3-studio.6...v3.0.0-v3-studio.7) (2022-08-17)
 
 ### Bug Fixes

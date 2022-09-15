@@ -1,6 +1,6 @@
 {
   "name": "@sanity/code-input",
-  "version": "3.0.0-v3-studio.7",
+  "version": "3.0.0-v3-studio.8",
   "description": "Ace editor for editing code",
   "source": "./src/index.ts",
   "exports": {
