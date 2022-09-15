@@ -12,7 +12,7 @@ export const AceEditorLazy = React.lazy(() => import('./editorSupport'))
 export function useAceEditor() {
   const [mounted, setMounted] = useState(false)
   useEffect(() => {
-    setMounted(true)
+    requestAnimationFrame(() => setMounted(true))
   }, [])
 
   return mounted ? AceEditorLazy : null

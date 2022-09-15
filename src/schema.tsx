@@ -59,6 +59,7 @@ export default defineType({
       return {
         title: value.filename || (value.language || 'unknown').toUpperCase(),
         media: getMedia(value?.language),
+        selection: value,
       }
     },
   },

@@ -27,7 +27,7 @@ const PreviewInner = styled(Box)`
 
 export interface PreviewCodeProps {
   type?: CodeInputType
-  value?: CodeInputValue
+  value?: {selection?: CodeInputValue}
 }
 
 export default function PreviewCode(props: PreviewCodeProps) {
@@ -52,14 +52,15 @@ export default function PreviewCode(props: PreviewCodeProps) {
   const {value, type} = props
   const fixedLanguage = type?.options?.language
 
-  const mode = value?.language || fixedLanguage || 'text'
-  const AceEditor = useAceEditor()
+  const selection = value?.selection
+  const mode = selection?.language || fixedLanguage || 'text'
 
+  const AceEditor = useAceEditor()
   return (
     <PreviewContainer>
       <PreviewInner padding={4}>
         {AceEditor && (
-          <Suspense fallback={<div>Loading code editor...</div>}>
+          <Suspense fallback={<div>Loading code preview...</div>}>
             <AceEditor
               ref={aceEditorRef}
               focus={false}
@@ -73,10 +74,10 @@ export default function PreviewCode(props: PreviewCodeProps) {
               showPrintMargin={false}
               highlightActiveLine={false}
               cursorStart={-1}
-              value={(value && value.code) || ''}
+              value={selection?.code || ''}
               markers={
-                value && value.highlightedLines
-                  ? createHighlightMarkers(value.highlightedLines)
+                selection?.highlightedLines
+                  ? createHighlightMarkers(selection.highlightedLines)
                   : undefined
               }
               tabSize={2}
