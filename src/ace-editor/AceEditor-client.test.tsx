@@ -5,6 +5,19 @@ import {queryByText, render, waitForElementToBeRemoved} from '@testing-library/r
 import {useAceEditor} from './AceEditorLazy'
 
 describe('AceEditor - client', () => {
+  beforeEach(() => {
+    jest
+      .spyOn(window, 'requestAnimationFrame')
+      .mockImplementation((callback: FrameRequestCallback): number => {
+        callback(0)
+        return 0
+      })
+  })
+
+  afterEach(() => {
+    ;(window.requestAnimationFrame as any).mockRestore()
+  })
+
   it('should render suspended ace editor', async () => {
     const fallbackString = 'loading'
 
