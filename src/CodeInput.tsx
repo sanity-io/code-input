@@ -77,9 +77,8 @@ function isSupportedLanguage(mode: string) {
 
 export function CodeInput(props: CodeInputProps) {
   const {
-    focusRef,
     members,
-    onBlur,
+    elementProps,
     onChange,
     onFocusPath,
     readOnly,
@@ -102,7 +101,7 @@ export function CodeInput(props: CodeInputProps) {
   const filenameMember = fieldMembers.find((member) => member.name === 'filename')
   const codeFieldMember = fieldMembers.find((member) => member.name === 'code')
 
-  useImperativeHandle(focusRef, () => ({
+  useImperativeHandle(elementProps.ref, () => ({
     focus: () => {
       aceEditorRef?.current?.editor?.focus()
     },
@@ -296,7 +295,7 @@ export function CodeInput(props: CodeInputProps) {
                 setOptions={ACE_SET_OPTIONS}
                 editorProps={ACE_EDITOR_PROPS}
                 onFocus={handleCodeFocus}
-                onBlur={onBlur}
+                onBlur={elementProps.onBlur}
               />
             </Suspense>
           )}
@@ -310,7 +309,7 @@ export function CodeInput(props: CodeInputProps) {
       handleCodeFocus,
       handleEditorLoad,
       mode,
-      onBlur,
+      elementProps.onBlur,
       readOnly,
       value,
     ]
