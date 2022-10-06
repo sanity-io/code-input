@@ -1,15 +1,32 @@
 import {CodeBlockIcon} from '@sanity/icons'
-import {CodeInput} from './CodeInput'
+import {CodeInput, CodeOptions} from './CodeInput'
 import PreviewCode, {PreviewCodeProps} from './PreviewCode'
 import {getMedia} from './getMedia'
-import {defineType} from 'sanity'
+import {defineType, ObjectDefinition} from 'sanity'
 
 export type {CodeInputProps, CodeSchemaType} from './CodeInput'
 
 export type {CodeInputLanguage, CodeInputValue} from './types'
 export type {PreviewCode, PreviewCodeProps, CodeInput}
 
-export default defineType({
+const codeTypeName = 'code' as const
+
+/**
+ * @public
+ */
+export interface CodeDefinition extends Omit<ObjectDefinition, 'type' | 'fields' | 'options'> {
+  type: typeof codeTypeName
+  options?: CodeOptions
+}
+
+declare module '@sanity/types' {
+  // makes type: 'code' narrow correctly when using defineType/defineField/defineArrayMember
+  export interface IntrinsicDefinitions {
+    code: CodeDefinition
+  }
+}
+
+export const codeSchema = defineType({
   name: 'code',
   type: 'object',
   title: 'Code',

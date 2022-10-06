@@ -3,8 +3,9 @@ import styled from 'styled-components'
 import {Box} from '@sanity/ui'
 import {ACE_EDITOR_PROPS, ACE_SET_OPTIONS} from './config'
 import createHighlightMarkers from './createHighlightMarkers'
-import {CodeInputType, CodeInputValue} from './types'
+import {CodeInputValue} from './types'
 import {useAceEditor} from './ace-editor/AceEditorLazy'
+import {CodeSchemaType} from './CodeInput'
 
 const PreviewContainer = styled(Box)`
   position: relative;
@@ -25,11 +26,17 @@ const PreviewInner = styled(Box)`
   }
 `
 
+/**
+ * @public
+ */
 export interface PreviewCodeProps {
-  type?: CodeInputType
+  type?: CodeSchemaType
   value?: {selection?: CodeInputValue}
 }
 
+/**
+ * @public
+ */
 export default function PreviewCode(props: PreviewCodeProps) {
   const aceEditorRef = useRef<any>()
 

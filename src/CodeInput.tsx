@@ -1,7 +1,17 @@
 /* eslint-disable react/jsx-handler-names */
 import React, {Suspense, useCallback, useEffect, useImperativeHandle, useMemo, useRef} from 'react'
-import {FieldMember, MemberField, ObjectInputProps, set, setIfMissing, unset} from 'sanity/form'
-import {InputProps, ObjectSchemaType, StringInputProps, useColorScheme} from 'sanity'
+import {
+  InputProps,
+  ObjectSchemaType,
+  StringInputProps,
+  useColorScheme,
+  FieldMember,
+  MemberField,
+  ObjectInputProps,
+  set,
+  setIfMissing,
+  unset,
+} from 'sanity'
 import {Card, Select, Stack, ThemeColorSchemeKey} from '@sanity/ui'
 import styled from 'styled-components'
 import createHighlightMarkers, {highlightMarkersCSS} from './createHighlightMarkers'
@@ -44,16 +54,27 @@ const EditorContainer = styled(Card)`
   }
 `
 
-export type CodeSchemaType = Omit<ObjectSchemaType, 'options'> & {
-  options?: {
-    theme?: string
-    darkTheme?: string
-    languageAlternatives: CodeInputLanguage[]
-    language: string
-    withFilename?: boolean
-  }
+/**
+ * @public
+ */
+export interface CodeOptions {
+  theme?: string
+  darkTheme?: string
+  languageAlternatives?: CodeInputLanguage[]
+  language?: string
+  withFilename?: boolean
 }
 
+/**
+ * @public
+ */
+export type CodeSchemaType = Omit<ObjectSchemaType, 'options'> & {
+  options?: CodeOptions
+}
+
+/**
+ * @public
+ */
 export type CodeInputProps = ObjectInputProps<CodeInputValue, CodeSchemaType> & {
   /** @internal */
   colorScheme?: ThemeColorSchemeKey
@@ -247,7 +268,7 @@ export function CodeInput(props: CodeInputProps) {
   const mode = configured?.mode || (supported ? language : 'text')
 
   const renderLanguageInput = useCallback(
-    (inputProps: InputProps) => {
+    (inputProps: Omit<InputProps, 'renderDefault'>) => {
       return (
         <Select
           {...(inputProps as StringInputProps)}
