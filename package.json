@@ -1,16 +1,16 @@
 {
   "name": "@sanity/code-input",
-  "version": "3.0.0-v3-studio.9",
+  "version": "3.0.0-v3-studio.10",
   "description": "Ace editor for editing code",
   "source": "./src/index.ts",
   "exports": {
-   ".": {
-     "types": "./lib/src/index.d.ts",
-     "source": "./src/index.ts",
-     "import": "./lib/index.esm.js",
-     "require": "./lib/index.js",
-     "default": "./lib/index.esm.js"
-   }
+    ".": {
+      "types": "./lib/src/index.d.ts",
+      "source": "./src/index.ts",
+      "import": "./lib/index.esm.js",
+      "require": "./lib/index.js",
+      "default": "./lib/index.esm.js"
+    }
   },
   "main": "./lib/index.js",
   "module": "./lib/index.esm.js",

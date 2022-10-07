@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-v3-studio.10](https://github.com/sanity-io/code-input/compare/v3.0.0-v3-studio.9...v3.0.0-v3-studio.10) (2022-10-07)
+
+### Bug Fixes
+
+- **deps:** dev-preview.21 ([89ecdc3](https://github.com/sanity-io/code-input/commit/89ecdc316d652d6456ff677b338df1a6b35be92b))
+
 ## [3.0.0-v3-studio.9](https://github.com/sanity-io/code-input/compare/v3.0.0-v3-studio.8...v3.0.0-v3-studio.9) (2022-09-15)
 
 ### Bug Fixes
