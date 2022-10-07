@@ -20,9 +20,8 @@
     "downlevelIteration": true,
     "declaration": true,
     "allowSyntheticDefaultImports": true,
-    "baseUrl": ".",
-    "checkJs": false
-
+    "checkJs": false,
+    "rootDir": "src"
   },
   "include": ["./src"]
 }
