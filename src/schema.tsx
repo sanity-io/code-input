@@ -9,7 +9,10 @@ export type {CodeInputProps, CodeSchemaType} from './CodeInput'
 export type {CodeInputLanguage, CodeInputValue} from './types'
 export type {PreviewCode, PreviewCodeProps, CodeInput}
 
-const codeTypeName = 'code' as const
+/**
+ * @public
+ */
+export const codeTypeName = 'code' as const
 
 /**
  * @public
@@ -26,6 +29,9 @@ declare module '@sanity/types' {
   }
 }
 
+/**
+ * @public
+ */
 export const codeSchema = defineType({
   name: 'code',
   type: 'object',
