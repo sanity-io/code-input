@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-v3-studio.11](https://github.com/sanity-io/code-input/compare/v3.0.0-v3-studio.10...v3.0.0-v3-studio.11) (2022-10-07)
+
+### Bug Fixes
+
+- code-definition extension to intrinsics should work again ([c7b3c1f](https://github.com/sanity-io/code-input/commit/c7b3c1fe4c667302ec7aa7d34bc131d467156406))
+
 ## [3.0.0-v3-studio.10](https://github.com/sanity-io/code-input/compare/v3.0.0-v3-studio.9...v3.0.0-v3-studio.10) (2022-10-07)
 
 ### Bug Fixes
