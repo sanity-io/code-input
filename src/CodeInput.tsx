@@ -11,6 +11,7 @@ import {
   set,
   setIfMissing,
   unset,
+  RenderInputCallback,
 } from 'sanity'
 import {Card, Select, Stack, ThemeColorSchemeKey} from '@sanity/ui'
 import styled from 'styled-components'
@@ -101,7 +102,6 @@ export function CodeInput(props: CodeInputProps) {
     members,
     elementProps,
     onChange,
-    onFocusPath,
     readOnly,
     renderField,
     renderInput,
@@ -109,6 +109,7 @@ export function CodeInput(props: CodeInputProps) {
     renderPreview,
     schemaType: type,
     value,
+    onPathFocus,
   } = props
 
   const aceEditorRef = useRef<any>()
@@ -129,8 +130,8 @@ export function CodeInput(props: CodeInputProps) {
   }))
 
   const handleCodeFocus = useCallback(() => {
-    onFocusPath(PATH_CODE)
-  }, [onFocusPath])
+    onPathFocus(PATH_CODE)
+  }, [onPathFocus])
 
   const {scheme} = useColorScheme()
 
@@ -290,7 +291,7 @@ export function CodeInput(props: CodeInputProps) {
 
   const AceEditor = useAceEditor()
 
-  const renderCodeInput = useCallback(
+  const renderCodeInput: RenderInputCallback = useCallback(
     (inputProps) => {
       return (
         <EditorContainer radius={1} shadow={1} readOnly={readOnly}>
@@ -303,7 +304,7 @@ export function CodeInput(props: CodeInputProps) {
                 width="100%"
                 onChange={handleCodeChange}
                 name={inputProps.id}
-                value={inputProps.value}
+                value={inputProps.value as string}
                 markers={
                   value && value.highlightedLines
                     ? createHighlightMarkers(value.highlightedLines)
