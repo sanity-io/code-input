@@ -5,6 +5,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-v3-studio.12](https://github.com/sanity-io/code-input/compare/v3.0.0-v3-studio.11...v3.0.0-v3-studio.12) (2022-10-27)
+
+### Bug Fixes
+
+- @sanity/ui 1.0.0-beta.31 ([b4d6575](https://github.com/sanity-io/code-input/commit/b4d657556be578399375328080e1e21e641097cb))
+- compiled for dev-preview.22 ([bb9a6a7](https://github.com/sanity-io/code-input/commit/bb9a6a774c310ff3f12e5df4db48a8522632912c))
+
 ## [3.0.0-v3-studio.11](https://github.com/sanity-io/code-input/compare/v3.0.0-v3-studio.10...v3.0.0-v3-studio.11) (2022-10-07)
 
 ### Bug Fixes
