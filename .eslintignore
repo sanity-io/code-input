@@ -2,5 +2,5 @@
 commitlint.config.js
 lib
 lint-staged.config.js
-*.js
 package.config.ts
+*.js

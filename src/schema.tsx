@@ -36,7 +36,7 @@ export const codeSchema = defineType({
   name: 'code',
   type: 'object',
   title: 'Code',
-  components: {input: CodeInput, preview: PreviewCode},
+  ...({components: {input: CodeInput, preview: PreviewCode}} as {}), //TODO rollback change when rc.1 is released
   icon: CodeBlockIcon,
   fields: [
     {

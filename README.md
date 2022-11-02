@@ -179,18 +179,9 @@ with default configuration for build & watch scripts.
 See [Testing a plugin in Sanity Studio](https://github.com/sanity-io/plugin-kit#testing-a-plugin-in-sanity-studio)
 on how to run this plugin with hotreload in the studio.
 
-### Dev note on parcel + vite in dev mode:
-Vite will emit a warning when using yalc add + link in a Studio running with
-vite dev server. 
-It happens because parcel appends ?currentTimestamp to the import statement for
-cache busting, which is [not supported by vite](https://github.com/rollup/plugins/tree/master/packages/dynamic-import-vars#limitations).
+### Release new version
 
-However, the code _works_, and when building for production this is not an issue, as parcel
-will not suffix the timestamp in the prod bundle.
-
-## Release new version
-
-Run ["CI & Release" workflow](https://github.com/sanity-io/code-input/actions).
+Run ["CI & Release" workflow](https://github.com/sanity-io/code-input/actions/workflows/main.yml).
 Make sure to select the main branch and check "Release new version".
 
 Semantic release will only release on configured branches, so it is safe to run release on any branch.
