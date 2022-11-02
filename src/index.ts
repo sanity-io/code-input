@@ -1,4 +1,4 @@
-import {createPlugin} from 'sanity'
+import {definePlugin} from 'sanity'
 
 import {codeSchema, codeTypeName, CodeDefinition} from './schema'
 import PreviewCode, {PreviewCodeProps} from './PreviewCode'
@@ -12,7 +12,7 @@ export type {CodeDefinition}
 /**
  * @public
  */
-export const codeInput = createPlugin({
+export const codeInput = definePlugin({
   name: '@sanity/code-input',
   schema: {types: [codeSchema]},
 })

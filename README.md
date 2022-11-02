@@ -35,7 +35,7 @@ Add it as a plugin in sanity.config.ts (or .js):
 ```js
 import { codeInput } from "@sanity/code-input";
 
-export default createConfig({
+export default defineConfig({
   // ...
   plugins: [
     codeInput(),
