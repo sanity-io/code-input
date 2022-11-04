@@ -2,8 +2,6 @@
   "name": "@sanity/code-input",
   "version": "3.0.0-v3-studio.14",
   "description": "Ace editor for editing code",
-  "author": "Sanity.io <hello@sanity.io>",
-  "license": "MIT",
   "keywords": [
     "sanity",
     "cms",
@@ -22,6 +20,8 @@
     "type": "git",
     "url": "git@github.com:sanity-io/code-input.git"
   },
+  "license": "MIT",
+  "author": "Sanity.io <hello@sanity.io>",
   "exports": {
     ".": {
       "types": "./lib/src/index.d.ts",
@@ -29,7 +29,8 @@
       "import": "./lib/index.esm.js",
       "require": "./lib/index.js",
       "default": "./lib/index.esm.js"
-    }
+    },
+    "./package.json": "./package.json"
   },
   "main": "./lib/index.js",
   "module": "./lib/index.esm.js",
