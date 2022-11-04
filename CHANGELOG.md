@@ -5,6 +5,14 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0-v3-studio.14](https://github.com/sanity-io/code-input/compare/v3.0.0-v3-studio.13...v3.0.0-v3-studio.14) (2022-11-04)
+
+### Bug Fixes
+
+- **deps:** pin dependencies ([#28](https://github.com/sanity-io/code-input/issues/28)) ([59d92d9](https://github.com/sanity-io/code-input/commit/59d92d9ce0a6ce0cd403c32dd9058e37e7ac87e4))
+- **deps:** update dependency @sanity/icons to v1.3.9-beta.3 ([#30](https://github.com/sanity-io/code-input/issues/30)) ([9b49361](https://github.com/sanity-io/code-input/commit/9b493612e388dfa71dfc6be0afb5b1d7306136e3))
+- **deps:** update dependency ace-builds to ^1.12.5 ([#8](https://github.com/sanity-io/code-input/issues/8)) ([ae169c7](https://github.com/sanity-io/code-input/commit/ae169c75e162322d7396132448cde942511a79d7))
+
 ## [3.0.0-v3-studio.13](https://github.com/sanity-io/code-input/compare/v3.0.0-v3-studio.12...v3.0.0-v3-studio.13) (2022-11-02)
 
 ### Bug Fixes
