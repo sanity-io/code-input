@@ -36,7 +36,7 @@
     "clean": "rimraf lib",
     "lint": "eslint .",
     "prepare": "husky install",
-    "prepublishOnly": "sanipack build",
+    "prepublishOnly": "npm run build",
     "watch": "sanipack build --watch"
   },
   "dependencies": {
