@@ -20,3 +20,5 @@
 yalc.lock
 
 .parcel-cache
+
+dts/

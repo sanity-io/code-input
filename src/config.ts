@@ -32,7 +32,6 @@ export const LANGUAGE_ALIASES: Record<string, string | undefined> = {js: 'javasc
 export const SUPPORTED_THEMES = ['github', 'monokai', 'terminal', 'tomorrow']
 
 export const DEFAULT_THEME = 'tomorrow'
-export const DEFAULT_DARK_THEME = 'monokai'
 
 export const ACE_SET_OPTIONS = {
   useSoftTabs: true,

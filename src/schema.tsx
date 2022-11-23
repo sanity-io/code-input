@@ -1,12 +1,8 @@
 import React from 'react'
 import {CodeBlockIcon} from '@sanity/icons'
-import {CodeInput} from './CodeInput'
+import CodeInput from './CodeInput'
 import PreviewCode, {PreviewCodeProps} from './PreviewCode'
 import {getMedia} from './getMedia'
-
-export type {CodeInputProps, CodeSchemaType} from './CodeInput'
-
-export type {CodeInputLanguage, CodeInputValue} from './types'
 
 const Preview = (props: PreviewCodeProps) => {
   return <PreviewCode {...props} />
@@ -16,7 +12,7 @@ export default {
   name: 'code',
   type: 'object',
   title: 'Code',
-  components: {input: CodeInput},
+  inputComponent: CodeInput,
   icon: CodeBlockIcon,
   fields: [
     {

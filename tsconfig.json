@@ -6,7 +6,7 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "outDir": "lib",
+    "outDir": "dts",
     "noImplicitAny": true,
     "jsx": "preserve",
     "moduleResolution": "node",
@@ -22,7 +22,6 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "checkJs": false
-
   },
   "include": ["./src"]
 }

@@ -1,49 +1,29 @@
 # @sanity/code-input
 
-> **NOTE**
->
-> This is the **Sanity Studio v3 version** of @sanity/code-input.
->
-> For the v2 version, please refer to the [v2-branch](https://github.com/sanity-io/sanity/tree/next/packages/%40sanity/code-input).
+> This is a **Sanity Studio v2** plugin.
+> For the v3 version, please refer to the [v3-branch](https://github.com/sanity-io/code-input).
 
-## What is it?
 
 Code input for [Sanity](https://sanity.io/).
 
 Currently only a subset of languages and features are exposed, over time we will implement a richer set of options.
 
-![Code input](assets/basic-input.png)
-
-Click lines to highlight them.
-
 ## Installation
 
-```
-npm install --save @sanity/code-input@studio-v3
+```sh
+yarn add @sanity/code-input@studio-v2
 ```
 
-or
-
-```
-yarn add @sanity/code-input@studio-v3
+Next, add `"@sanity/code-input"` to `sanity.json` plugins array:
+```json
+"plugins": [
+  "@sanity/code-input"
+]
 ```
 
 ## Usage
 
-Add it as a plugin in sanity.config.ts (or .js):
-
-```js
-import { codeInput } from "@sanity/code-input";
-
-export default createConfig({
-  // ...
-  plugins: [
-    codeInput(),
-  ] 
-})
-```
-
-Now you can use the `code` type in your schema types:
+Use it in your schema types:
 
 ```js
 // [...]
@@ -59,6 +39,8 @@ Now you can use the `code` type in your schema types:
 }
 ```
 
+Note that the above only works if you import and use the `all:part:@sanity/base/schema-type` part in your schema.
+
 ## Options
 
 - `language` - Default language for this code field
@@ -66,20 +48,16 @@ Now you can use the `code` type in your schema types:
 - `theme` - Name of the theme to use.
   - Possible values include: `['github', 'monokai', 'terminal', 'tomorrow']`.
   - For the full list and a live playground, refer to the [react-ace page](http://securingsincity.github.io/react-ace/).
-  - Default value: 'tomorrow'
-- `darkTheme` - Name of the theme to use when Studio is using dark mode. See `theme` options for supported values.
-  - Default value: `'monokai'`
 - `withFilename` - Boolean option to display input field for filename
 
 ```js
 // ...fields...
 {
   name: 'exampleUsage',
-  title: 'Code with all options',
+  title: 'Example usage',
   type: 'code',
   options: {
-    theme: 'github',
-    darkTheme: 'terminal',
+    theme: 'solarized_dark',
     language: 'js',
     languageAlternatives: [
       {title: 'Javascript', value: 'js'},
@@ -91,8 +69,6 @@ Now you can use the `code` type in your schema types:
   }
 }
 ```
-
-![Code input with all options in dark mode](assets/all-options.png)
 
 ## Add support for more languages
 
@@ -128,8 +104,7 @@ import 'ace-builds/src-noconflict/mode-rust'
   _type: 'code',
   language: 'js',
   highlightedLines: [1, 2],
-  code: 'const foo = "bar"\nconsole.log(foo.toUpperCase())\n// BAR',
-  filename: 'available when enabled'        
+  code: 'const foo = "bar"\nconsole.log(foo.toUpperCase())\n// BAR'
 }
 ```
 
@@ -158,6 +133,8 @@ export function Code(props) {
     />
   )
 }
+
+export default Code
 ```
 
 Other syntax highlighters include:
@@ -170,25 +147,3 @@ Other syntax highlighters include:
 ## License
 
 MIT-licensed. See LICENSE.
-
-## Develop & test
-
-Make sure to run `npm run build` once, then run
-
-```bash
-npm run link-watch
-```
-
-In another shell, `cd` to your test studio and run:
-
-```bash
-npx yalc add @sanity/code-input --link && yarn install
-```
-
-Now, changes in this repo will be automatically built and pushed to the studio,
-triggering hotreload. Yalc avoids issues with react-hooks that are typical when using yarn/npm link.
-
-### About build & watch
-
-This plugin uses [@sanity/plugin-sdk](https://github.com/sanity-io/plugin-sdk)
-with default configuration for build & watch scripts.
