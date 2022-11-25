@@ -1,9 +1,6 @@
 # @sanity/code-input
 
-> **NOTE**
->
-> This is the **Sanity Studio v3 version** of @sanity/code-input.
->
+> This is a **Sanity Studio v3** plugin.
 > For the v2 version, please refer to the [v2-branch](https://github.com/sanity-io/sanity/tree/next/packages/%40sanity/code-input).
 
 ## What is it?
@@ -19,13 +16,13 @@ Click lines to highlight them.
 ## Installation
 
 ```
-npm install --save @sanity/code-input@studio-v3
+npm install --save @sanity/code-input
 ```
 
 or
 
 ```
-yarn add @sanity/code-input@studio-v3
+yarn add @sanity/code-input
 ```
 
 ## Usage
