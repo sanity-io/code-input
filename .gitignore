@@ -51,6 +51,7 @@ jspm_packages
 
 # Compiled plugin
 lib
+dts
 
 # Yalc
 .yalc
