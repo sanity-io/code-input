@@ -56,9 +56,9 @@
     "watch": "pkg-utils watch"
   },
   "dependencies": {
-    "@sanity/icons": "^2.0.0",
+    "@sanity/icons": "2.0.0",
     "@sanity/incompatible-plugin": "^1.0.4",
-    "@sanity/ui": "^1.0.0",
+    "@sanity/ui": "1.0.0",
     "ace-builds": "^1.9.5",
     "react-ace": "^10.1.0"
   },
