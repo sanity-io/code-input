@@ -5,7 +5,7 @@ import {ACE_EDITOR_PROPS, ACE_SET_OPTIONS} from './config'
 import createHighlightMarkers from './createHighlightMarkers'
 import {CodeInputValue} from './types'
 import {useAceEditor} from './ace-editor/AceEditorLazy'
-import {CodeSchemaType} from './CodeInput'
+import {PreviewProps} from 'sanity'
 
 const PreviewContainer = styled(Box)`
   position: relative;
@@ -29,9 +29,8 @@ const PreviewInner = styled(Box)`
 /**
  * @public
  */
-export interface PreviewCodeProps {
-  type?: CodeSchemaType
-  value?: {selection?: CodeInputValue}
+export interface PreviewCodeProps extends PreviewProps {
+  selection?: CodeInputValue
 }
 
 /**
@@ -56,10 +55,9 @@ export default function PreviewCode(props: PreviewCodeProps) {
     // do nothing when the editor changes
   }, [])
 
-  const {value, type} = props
+  const {selection, schemaType: type} = props
   const fixedLanguage = type?.options?.language
 
-  const selection = value?.selection
   const mode = selection?.language || fixedLanguage || 'text'
 
   const AceEditor = useAceEditor()
