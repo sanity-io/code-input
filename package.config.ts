@@ -13,4 +13,5 @@ export default defineConfig({
       'ae-missing-release-tag': 'off',
     },
   },
+  tsconfig: 'tsconfig.lib.json',
 })

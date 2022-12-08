@@ -24,7 +24,7 @@
   "author": "Sanity.io <hello@sanity.io>",
   "exports": {
     ".": {
-      "types": "./lib/src/index.d.ts",
+      "types": "./lib/index.d.ts",
       "source": "./src/index.ts",
       "import": "./lib/index.esm.js",
       "require": "./lib/index.js",
@@ -35,7 +35,7 @@
   "main": "./lib/index.js",
   "module": "./lib/index.esm.js",
   "source": "./src/index.ts",
-  "types": "./lib/src/index.d.ts",
+  "types": "./lib/index.d.ts",
   "files": [
     "src",
     "lib",
@@ -43,8 +43,8 @@
     "sanity.json"
   ],
   "scripts": {
-    "prebuild": "npm run clean && plugin-kit verify-package --silent && pkg-utils",
-    "build": "pkg-utils build --strict",
+    "prebuild": "npm run clean && plugin-kit verify-package --silent",
+    "build": "pkg-utils build --strict && pkg-utils --strict",
     "clean": "rimraf lib",
     "compile": "tsc --noEmit",
     "format": "prettier src -w",
@@ -108,7 +108,9 @@
   "sanityExchangeUrl": "https://www.sanity.io/plugins/code-input",
   "sanityPlugin": {
     "verifyPackage": {
-      "babelConfig": false
+      "babelConfig": false,
+      "scripts": false,
+      "tsconfig": false
     }
   }
 }
