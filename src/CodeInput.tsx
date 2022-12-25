@@ -1,33 +1,22 @@
 /* eslint-disable react/jsx-handler-names */
-import React, {Suspense, useCallback, useEffect, useImperativeHandle, useMemo, useRef} from 'react'
+import React, {Suspense, useCallback, useEffect, useMemo, useRef} from 'react'
 import {
-  InputProps,
-  ObjectSchemaType,
-  StringInputProps,
-  useColorScheme,
   FieldMember,
+  InputProps,
   MemberField,
   ObjectInputProps,
+  ObjectSchemaType,
+  RenderInputCallback,
   set,
   setIfMissing,
+  StringInputProps,
   unset,
-  RenderInputCallback,
 } from 'sanity'
 import {Card, Select, Stack, ThemeColorSchemeKey} from '@sanity/ui'
 import styled from 'styled-components'
-import createHighlightMarkers, {highlightMarkersCSS} from './createHighlightMarkers'
 import {CodeInputLanguage, CodeInputValue} from './types'
-import {
-  ACE_EDITOR_PROPS,
-  ACE_SET_OPTIONS,
-  DEFAULT_DARK_THEME,
-  DEFAULT_THEME,
-  LANGUAGE_ALIASES,
-  PATH_CODE,
-  SUPPORTED_LANGUAGES,
-  SUPPORTED_THEMES,
-} from './config'
-import {useAceEditor} from './ace-editor/AceEditorLazy'
+import {LANGUAGE_ALIASES, PATH_CODE, SUPPORTED_LANGUAGES} from './config'
+import {useCodeMirror} from './codemirror/useCodeMirror'
 
 export type {CodeInputLanguage, CodeInputValue} from './types'
 
@@ -37,22 +26,9 @@ const EditorContainer = styled(Card)`
   overflow: hidden;
   z-index: 0;
 
-  .ace_editor {
-    font-family: ${({theme}) => theme.sanity.fonts.code.family};
-    font-size: ${({theme}) => theme.sanity.fonts.code.sizes[1]};
-    line-height: inherit;
-  }
-
-  ${highlightMarkersCSS}
-
-  &:not([disabled]):not([readonly]) {
-    &:focus,
-    &:focus-within {
-      box-shadow: 0 0 0 2px ${({theme}) => theme.sanity.color.base.focusRing};
-      background-color: ${({theme}) => theme.sanity.color.base.bg};
-      border-color: ${({theme}) => theme.sanity.color.base.focusRing};
-    }
-  }
+  resize: vertical;
+  height: 250px;
+  overflow-y: auto;
 `
 
 /**
@@ -81,20 +57,8 @@ export type CodeInputProps = ObjectInputProps<CodeInputValue, CodeSchemaType> & 
   colorScheme?: ThemeColorSchemeKey
 }
 
-// Returns a string with the mode name if supported (because aliases), otherwise false
-function isSupportedLanguage(mode: string) {
-  const alias = LANGUAGE_ALIASES[mode]
-
-  if (alias) {
-    return alias
-  }
-
-  const isSupported = SUPPORTED_LANGUAGES.find((lang) => lang.value === mode)
-  if (isSupported) {
-    return mode
-  }
-
-  return false
+function resolveAliasedLanguage(lang?: string) {
+  return (lang && LANGUAGE_ALIASES[lang]) ?? lang
 }
 
 export function CodeInput(props: CodeInputProps) {
@@ -112,7 +76,7 @@ export function CodeInput(props: CodeInputProps) {
     onPathFocus,
   } = props
 
-  const aceEditorRef = useRef<any>()
+  const editorRef = useRef<any>()
 
   const fieldMembers = useMemo(
     () => members.filter((member) => member.kind === 'field') as FieldMember[],
@@ -123,30 +87,13 @@ export function CodeInput(props: CodeInputProps) {
   const filenameMember = fieldMembers.find((member) => member.name === 'filename')
   const codeFieldMember = fieldMembers.find((member) => member.name === 'code')
 
-  useImperativeHandle(elementProps.ref, () => ({
-    focus: () => {
-      aceEditorRef?.current?.editor?.focus()
-    },
-  }))
-
   const handleCodeFocus = useCallback(() => {
     onPathFocus(PATH_CODE)
   }, [onPathFocus])
 
-  const {scheme} = useColorScheme()
-
-  const theme = useMemo(() => {
-    const isLight = scheme === 'light'
-    const preferredTheme = isLight ? type.options?.theme : type.options?.darkTheme
-    const defaultTheme = isLight ? DEFAULT_THEME : DEFAULT_DARK_THEME
-    return preferredTheme && SUPPORTED_THEMES.find((t) => t === preferredTheme)
-      ? preferredTheme
-      : defaultTheme
-  }, [type, scheme])
-
   const handleToggleSelectLine = useCallback(
     (lineNumber: number) => {
-      const editorSession = aceEditorRef.current?.editor?.getSession()
+      const editorSession = editorRef.current?.editor?.getSession()
       const backgroundMarkers = editorSession?.getMarkers(true)
       const currentHighlightedLines = Object.keys(backgroundMarkers)
         .filter((key) => backgroundMarkers[key].type === 'screenLine')
@@ -171,7 +118,7 @@ export function CodeInput(props: CodeInputProps) {
         )
       )
     },
-    [aceEditorRef, onChange]
+    [editorRef, onChange]
   )
 
   const handleGutterMouseDown = useCallback(
@@ -186,11 +133,11 @@ export function CodeInput(props: CodeInputProps) {
   )
 
   useEffect(() => {
-    const editor = aceEditorRef?.current?.editor
+    const editor = editorRef?.current?.editor
     return () => {
       editor?.session?.removeListener('guttermousedown', handleGutterMouseDown)
     }
-  }, [aceEditorRef, handleGutterMouseDown])
+  }, [editorRef, handleGutterMouseDown])
 
   const handleEditorLoad = useCallback(
     (editor: any) => {
@@ -199,11 +146,7 @@ export function CodeInput(props: CodeInputProps) {
     [handleGutterMouseDown]
   )
 
-  const getLanguageAlternatives = useCallback((): {
-    title: string
-    value: string
-    mode?: string
-  }[] => {
+  const getLanguageAlternatives = useCallback((): CodeInputLanguage[] => {
     const languageAlternatives = type.options?.languageAlternatives
     if (!languageAlternatives) {
       return SUPPORTED_LANGUAGES
@@ -228,15 +171,6 @@ export function CodeInput(props: CodeInputProps) {
 
         return acc.concat({title, value: alias, mode: mode})
       }
-
-      if (!mode && !SUPPORTED_LANGUAGES.find((lang) => lang.value === val)) {
-        // eslint-disable-next-line no-console
-        console.warn(
-          `'options.languageAlternatives' lists a language which is not supported: "%s", syntax highlighting will be disabled.`,
-          val
-        )
-      }
-
       return acc.concat({title, value: val, mode})
     }, [])
   }, [type])
@@ -263,10 +197,7 @@ export function CodeInput(props: CodeInputProps) {
   // the language config from the schema
   const configured = languages.find((entry) => entry.value === language)
 
-  // is the language officially supported (e.g. we import the mode by default)
-  const supported = language && isSupportedLanguage(language)
-
-  const mode = configured?.mode || (supported ? language : 'text')
+  const mode = configured?.mode ?? resolveAliasedLanguage(language) ?? 'text'
 
   const renderLanguageInput = useCallback(
     (inputProps: Omit<InputProps, 'renderDefault'>) => {
@@ -289,33 +220,25 @@ export function CodeInput(props: CodeInputProps) {
     [languages]
   )
 
-  const AceEditor = useAceEditor()
+  const CodeMirror = useCodeMirror()
 
   const renderCodeInput: RenderInputCallback = useCallback(
     (inputProps) => {
       return (
         <EditorContainer radius={1} shadow={1} readOnly={readOnly}>
-          {AceEditor && (
-            <Suspense fallback={<div>Loading code editor...</div>}>
-              <AceEditor
-                ref={aceEditorRef}
+          {CodeMirror && (
+            <Suspense fallback={<Card padding={2}>Loading code editor...</Card>}>
+              <CodeMirror
                 mode={mode}
-                theme={theme}
-                width="100%"
+                ref={editorRef}
                 onChange={handleCodeChange}
-                name={inputProps.id}
                 value={inputProps.value as string}
-                markers={
+                /*       markers={
                   value && value.highlightedLines
                     ? createHighlightMarkers(value.highlightedLines)
                     : undefined
-                }
-                onLoad={handleEditorLoad}
+                }*/
                 readOnly={readOnly}
-                tabSize={2}
-                wrapEnabled
-                setOptions={ACE_SET_OPTIONS}
-                editorProps={ACE_EDITOR_PROPS}
                 onFocus={handleCodeFocus}
                 onBlur={elementProps.onBlur}
               />
@@ -325,8 +248,7 @@ export function CodeInput(props: CodeInputProps) {
       )
     },
     [
-      AceEditor,
-      theme,
+      CodeMirror,
       handleCodeChange,
       handleCodeFocus,
       handleEditorLoad,

@@ -2,9 +2,10 @@
 import React, {Suspense} from 'react'
 
 import {queryByText, render, waitForElementToBeRemoved} from '@testing-library/react'
-import {useAceEditor} from './AceEditorLazy'
+import {useCodeMirror} from './useCodeMirror'
+import {studioTheme, ThemeProvider} from '@sanity/ui'
 
-describe('AceEditor - client', () => {
+describe('useCodeMirror - client', () => {
   beforeEach(() => {
     jest
       .spyOn(window, 'requestAnimationFrame')
@@ -22,8 +23,16 @@ describe('AceEditor - client', () => {
     const fallbackString = 'loading'
 
     const TestComponent = () => {
-      const AceEditor = useAceEditor()
-      return <Suspense fallback={fallbackString}>{AceEditor && <AceEditor />}</Suspense>
+      const CodeMirror = useCodeMirror()
+      return (
+        <Suspense fallback={fallbackString}>
+          {CodeMirror && (
+            <ThemeProvider theme={studioTheme}>
+              <CodeMirror />
+            </ThemeProvider>
+          )}
+        </Suspense>
+      )
     }
     const {container} = render(<TestComponent />)
 
