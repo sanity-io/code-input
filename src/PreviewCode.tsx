@@ -1,29 +1,12 @@
 import React, {Suspense, useCallback, useEffect, useRef} from 'react'
 import styled from 'styled-components'
-import {Box} from '@sanity/ui'
-import {ACE_EDITOR_PROPS, ACE_SET_OPTIONS} from './config'
-import createHighlightMarkers from './createHighlightMarkers'
+import {Box, Card} from '@sanity/ui'
 import {CodeInputValue} from './types'
-import {useAceEditor} from './ace-editor/AceEditorLazy'
 import {PreviewProps} from 'sanity'
+import {useCodeMirror} from './codemirror/useCodeMirror'
 
 const PreviewContainer = styled(Box)`
   position: relative;
-`
-
-const PreviewInner = styled(Box)`
-  background-color: #272822;
-
-  .ace_editor {
-    box-sizing: border-box;
-    cursor: default;
-    pointer-events: none;
-  }
-
-  .ace_content {
-    box-sizing: border-box;
-    overflow: hidden;
-  }
 `
 
 /**
@@ -58,41 +41,38 @@ export default function PreviewCode(props: PreviewCodeProps) {
   const {selection, schemaType: type} = props
   const fixedLanguage = type?.options?.language
 
-  const mode = selection?.language || fixedLanguage || 'text'
+  const language = selection?.language || fixedLanguage || 'text'
 
-  const AceEditor = useAceEditor()
+  const CodeMirror = useCodeMirror()
   return (
     <PreviewContainer>
-      <PreviewInner padding={4}>
-        {AceEditor && (
-          <Suspense fallback={<div>Loading code preview...</div>}>
-            <AceEditor
+      <Card padding={4}>
+        {CodeMirror && (
+          <Suspense fallback={<Card padding={2}>Loading code preview...</Card>}>
+            <CodeMirror
               ref={aceEditorRef}
-              focus={false}
-              mode={mode}
-              theme="monokai"
-              width="100%"
               onChange={handleEditorChange}
-              maxLines={200}
               readOnly
-              wrapEnabled
-              showPrintMargin={false}
-              highlightActiveLine={false}
-              cursorStart={-1}
+              editable={false}
               value={selection?.code || ''}
-              markers={
+              basicSetup={{
+                lineNumbers: false,
+                foldGutter: false,
+                highlightSelectionMatches: false,
+                highlightActiveLineGutter: false,
+                highlightActiveLine: false,
+              }}
+              mode={language}
+
+              /*      markers={
                 selection?.highlightedLines
                   ? createHighlightMarkers(selection.highlightedLines)
                   : undefined
-              }
-              tabSize={2}
-              showGutter={false}
-              setOptions={ACE_SET_OPTIONS}
-              editorProps={ACE_EDITOR_PROPS}
+              }*/
             />
           </Suspense>
         )}
-      </PreviewInner>
+      </Card>
     </PreviewContainer>
   )
 }

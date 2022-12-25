@@ -1,6 +1,6 @@
 import {CodeInputLanguage} from './types'
 
-// NOTE: MAKE SURE THESE ALIGN WITH IMPORTS IN ./ace-editor/editorSupport
+// NOTE: MAKE SURE THESE ALIGN WITH CODE MODES IN ./codemirror/defaultCodeModes.ts
 export const SUPPORTED_LANGUAGES: CodeInputLanguage[] = [
   {title: 'Batch file', value: 'batchfile'},
   {title: 'C#', value: 'csharp'},
@@ -28,18 +28,6 @@ export const SUPPORTED_LANGUAGES: CodeInputLanguage[] = [
 ]
 
 export const LANGUAGE_ALIASES: Record<string, string | undefined> = {js: 'javascript'}
-
-export const SUPPORTED_THEMES = ['github', 'monokai', 'terminal', 'tomorrow']
-
-export const DEFAULT_THEME = 'tomorrow'
-export const DEFAULT_DARK_THEME = 'monokai'
-
-export const ACE_SET_OPTIONS = {
-  useSoftTabs: true,
-  navigateWithinSoftTabs: true /* note only supported by ace v1.2.7 or higher */,
-}
-
-export const ACE_EDITOR_PROPS = {$blockScrolling: true}
 
 export const PATH_LANGUAGE = ['language']
 export const PATH_CODE = ['code']

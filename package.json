@@ -56,11 +56,28 @@
     "watch": "pkg-utils watch"
   },
   "dependencies": {
+    "@codemirror/autocomplete": "^6.1.0",
+    "@codemirror/commands": "^6.0.1",
+    "@codemirror/lang-html": "^6.4.0",
+    "@codemirror/lang-java": "^6.0.1",
+    "@codemirror/lang-javascript": "^6.1.2",
+    "@codemirror/lang-json": "^6.0.1",
+    "@codemirror/lang-markdown": "^6.0.5",
+    "@codemirror/lang-php": "^6.0.1",
+    "@codemirror/lang-sql": "^6.3.3",
+    "@codemirror/language": "^6.2.1",
+    "@codemirror/legacy-modes": "^6.3.1",
+    "@codemirror/search": "^6.0.1",
+    "@codemirror/state": "^6.1.0",
+    "@codemirror/view": "^6.1.1",
+    "@juggle/resize-observer": "^3.3.1",
+    "@lezer/highlight": "^1.0.0",
+    "@sanity/color": "^2.1.20",
     "@sanity/icons": "^2.0.0",
     "@sanity/incompatible-plugin": "^1.0.4",
     "@sanity/ui": "^1.0.0",
-    "ace-builds": "^1.9.5",
-    "react-ace": "^10.1.0"
+    "@uiw/codemirror-themes": "^4.19.4",
+    "@uiw/react-codemirror": "^4.19.4"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.18.10",

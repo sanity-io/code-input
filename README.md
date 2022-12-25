@@ -58,65 +58,139 @@ Now you can use the `code` type in your schema types:
 
 ## Options
 
-- `language` - Default language for this code field
+- `language` - Default language for this code field. If none is provided, code-input will use the most recently selected language (stored in localstorage)
 - `languageAlternatives` - Array of languages that should be available (se its format in the example below)
-- `theme` - Name of the theme to use.
-  - Possible values include: `['github', 'monokai', 'terminal', 'tomorrow']`.
-  - For the full list and a live playground, refer to the [react-ace page](http://securingsincity.github.io/react-ace/).
-  - Default value: 'tomorrow'
-- `darkTheme` - Name of the theme to use when Studio is using dark mode. See `theme` options for supported values.
-  - Default value: `'monokai'`
 - `withFilename` - Boolean option to display input field for filename
 
 ```js
-// ...fields...
-{
+//...fields,
+defineField({
   name: 'exampleUsage',
   title: 'Code with all options',
   type: 'code',
   options: {
-    theme: 'github',
-    darkTheme: 'terminal',
-    language: 'js',
+    language: 'javascript',
     languageAlternatives: [
-      {title: 'Javascript', value: 'js'},
+      {title: 'Javascript', value: 'javascript'},
       {title: 'HTML', value: 'html'},
       {title: 'CSS', value: 'css'},
-      {title: 'Rust', value: 'rust', mode:'rust'},
-      {title: 'SASS', value: 'sass'},
     ]
   }
-}
+})
 ```
 
 ![Code input with all options in dark mode](assets/all-options.png)
 
 ## Add support for more languages
 
-Only a subset of languages are supported by default (see full list [here](https://github.com/sanity-io/sanity/blob/current/packages/@sanity/code-input/src/config.ts#L4)). You can add support for other languages by importing the ace mode yourself, and specifying `mode` for the `languageAlternatives` schema config.
+Only a subset of languages are have syntax highlighting support by default (see full list [here](https://github.com/sanity-io/code-input/blob/main/src/codemirror/defaultCodeModes.ts)). 
 
-Example: Add support for the Rust Programming Language
+### Mode: Reuse an existing language
+Some languages are similar enough, that reusing one of the default highlighters will be "good enough".
+To reuse an existing language, specify mode for a value in `languageAlternatives`:
 
 ```js
-// import rust support for ace, see https://github.com/securingsincity/react-ace for more details
-import 'ace-builds/src-noconflict/mode-rust'
+//...fields,
+defineField({
+  name: 'zhOnly',
+  type: 'code',
+  options: {
+    language: 'zh',
+    languageAlternatives: [
+      //Adds support for zh language, using sh syntax highlighting
+      {title: 'ZH', value: 'zh', mode: 'sh'},
+    ]
+  }
+})
+```
 
-{
-    name: 'exampleUsage',
+### Add more languages
+
+You can add support for additional languages, or override existing ones, by providing a `codeModes` array to the plugin.
+`codeModes` should be an array where each value is an object with a name and a loader function.
+The loader function should return a codemirror `Extension` or a `Promise`  that resolves to `Extension`.
+
+The loader function will be invoked when the language is selected.
+
+For a full list of officialy code-mirror languages, see:
+
+### Example: Add support for CodeMirror 6 language (Angular)
+
+We can add support for a [CodeMirror 6 lang package](https://github.com/orgs/codemirror/repositories?language=&q=lang-&sort=&type=all):
+
+```js
+// sanity.config.js
+
+// ... in the plugins array of defineConfig, where we add the codeInput plugin
+codeInput({
+  codeModes: [
+    {
+      name: 'angular',
+      // dynamic import the angular package, and initialize the plugin after it is loaded
+      // This way, the language is only when it is selected
+      loader: () => import('@codemirror/lang-angular').then(({angular}) => angular())
+    }
+  ]
+})
+```
+
+```js
+// in a code field, you can now use rust as a language as a value, or mode 
+defineField({
+    name: 'exampleRust',
     title: 'Example usage',
     type: 'code',
     options: {
       languageAlternatives: [
-        {title: 'Javascript', value: 'js'},
-        {
-          title: 'Rust',
-          value: 'rust',
-          mode:'rust' // <- specify the mode to use here. Make sure this mode is also imported from ace-builds (see above)
-        },
+        {title: 'Javascript', value: 'javascript'},
+        {title: 'Angular', value: 'angular' },
+        {title: 'Angular-like', value: 'angular-like', mode: 'angular' }, // uses angular highlighter
      ]
   }
-}
+})
 ```
+
+For this to work, you will have to run `npm i @codemirror/lang-angular` as this package is not included by @sanity/code-input.
+
+### Example: Add support for CodeMirror 5 legacy language (Rust)
+
+We can add support for any [CodeMirror 5 legacy language](https://github.com/codemirror/legacy-modes/tree/main/mode) using
+[CodeMirror 6 StreamLanguage](https://codemirror.net/docs/ref/#language.StreamLanguage).
+
+```js
+// sanity.config.js
+import {StreamLanguage} from '@codemirror/language'
+
+// ... in the plugins array of defineConfig, where we add the codeInput plugin
+codeInput({
+  codeModes: [
+    {
+      name: 'rust',
+      // dynamic import so the language is only be loaded on demand
+      loader: () => import('@codemirror/legacy-modes/mode/rust').then(({rust}) => StreamLanguage.define(rust))
+    }
+  ]
+})
+```
+
+```js
+// in a code field, you can now use rust as a language as a value, or mode 
+defineField({
+    name: 'exampleRust',
+    title: 'Example usage',
+    type: 'code',
+    options: {
+      languageAlternatives: [
+        {title: 'Javascript', value: 'javascript'},
+        {title: 'Rust', value: 'rust' },
+        {title: 'Rust-like', value: 'rust-like', mode: 'rust' }, // uses rust highlighter
+     ]
+  }
+})
+```
+
+Note: `@sanity/code-input` already includes the `@codemirror/legacy-modes` and `@codemirror/language` dependencies, 
+so no need to install them explicitly.
 
 ## Data model
 
