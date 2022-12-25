@@ -1,11 +1,11 @@
 import React from 'react'
 import {renderToString} from 'react-dom/server'
-import {useAceEditor} from './AceEditorLazy'
+import {useCodeMirror} from './useCodeMirror'
 
-describe('AceEditor - server', () => {
+describe('useCodeMirror - server', () => {
   it('should render null to string (and not throw and Error)', () => {
     const TestComponent = () => {
-      const Editor = useAceEditor()
+      const Editor = useCodeMirror()
       if (!Editor) {
         return null
       }
