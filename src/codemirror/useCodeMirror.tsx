@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 
-export const CodeMirrorLazyLanguage = React.lazy(() => import('./CodeMirrorLazyLanguage'))
+export const CodeMirrorProxy = React.lazy(() => import('./CodeMirrorProxy'))
 
 export function useCodeMirror() {
   const [mounted, setMounted] = useState(false)
@@ -8,5 +8,5 @@ export function useCodeMirror() {
     requestAnimationFrame(() => setMounted(true))
   }, [])
 
-  return mounted ? CodeMirrorLazyLanguage : null
+  return mounted ? CodeMirrorProxy : null
 }

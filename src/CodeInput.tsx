@@ -1,10 +1,11 @@
 /* eslint-disable react/jsx-handler-names */
-import React, {Suspense, useCallback, useEffect, useMemo, useRef} from 'react'
+import React, {Suspense, useCallback, useMemo} from 'react'
 import {
   FieldMember,
   InputProps,
   MemberField,
   ObjectInputProps,
+  ObjectMember,
   ObjectSchemaType,
   RenderInputCallback,
   set,
@@ -30,6 +31,7 @@ const EditorContainer = styled(Card)`
   height: 250px;
   overflow-y: auto;
 `
+const defaultMode = 'text'
 
 /**
  * @public
@@ -76,77 +78,153 @@ export function CodeInput(props: CodeInputProps) {
     onPathFocus,
   } = props
 
-  const editorRef = useRef<any>()
-
-  const fieldMembers = useMemo(
-    () => members.filter((member) => member.kind === 'field') as FieldMember[],
-    [members]
-  )
-
-  const languageFieldMember = fieldMembers.find((member) => member.name === 'language')
-  const filenameMember = fieldMembers.find((member) => member.name === 'filename')
-  const codeFieldMember = fieldMembers.find((member) => member.name === 'code')
+  const languageFieldMember = useFieldMember(members, 'language')
+  const filenameMember = useFieldMember(members, 'filename')
+  const codeFieldMember = useFieldMember(members, 'code')
 
   const handleCodeFocus = useCallback(() => {
     onPathFocus(PATH_CODE)
   }, [onPathFocus])
 
-  const handleToggleSelectLine = useCallback(
-    (lineNumber: number) => {
-      const editorSession = editorRef.current?.editor?.getSession()
-      const backgroundMarkers = editorSession?.getMarkers(true)
-      const currentHighlightedLines = Object.keys(backgroundMarkers)
-        .filter((key) => backgroundMarkers[key].type === 'screenLine')
-        .map((key) => backgroundMarkers[key].range.start.row)
-      const currentIndex = currentHighlightedLines.indexOf(lineNumber)
-      if (currentIndex > -1) {
-        // toggle remove
-        currentHighlightedLines.splice(currentIndex, 1)
-      } else {
-        // toggle add
-        currentHighlightedLines.push(lineNumber)
-        currentHighlightedLines.sort()
-      }
-      onChange(
-        set(
-          currentHighlightedLines.map(
-            (line) =>
-              // ace starts at line (row) 0, but we store it starting at line 1
-              line + 1
-          ),
-          ['highlightedLines']
-        )
+  const onHighlightChange = useCallback(
+    (lines: number[]) => onChange(set(lines, ['highlightedLines'])),
+    [onChange]
+  )
+
+  const handleCodeChange = useCallback(
+    (code: string) => {
+      const path = PATH_CODE
+      const fixedLanguage = type.options?.language
+
+      onChange([
+        setIfMissing({_type: type.name, language: fixedLanguage}),
+        code ? set(code, path) : unset(path),
+      ])
+    },
+    [onChange, type]
+  )
+  const languages = useLanguageAlternatives(props.schemaType)
+  const fixedLanguage = type.options?.language
+  const language = value?.language || fixedLanguage
+
+  // the language config from the schema
+  const configured = languages.find((entry) => entry.value === language)
+
+  const mode = configured?.mode ?? resolveAliasedLanguage(language) ?? defaultMode
+
+  const CodeMirror = useCodeMirror()
+
+  const renderCodeInput: RenderInputCallback = useCallback(
+    (inputProps) => {
+      return (
+        <EditorContainer radius={1} shadow={1} readOnly={readOnly}>
+          {CodeMirror && (
+            <Suspense fallback={<Card padding={2}>Loading code editor...</Card>}>
+              <CodeMirror
+                mode={mode}
+                onChange={handleCodeChange}
+                value={inputProps.value as string}
+                highlightLines={value?.highlightedLines}
+                onHighlightChange={onHighlightChange}
+                readOnly={readOnly}
+                onFocus={handleCodeFocus}
+                onBlur={elementProps.onBlur}
+              />
+            </Suspense>
+          )}
+        </EditorContainer>
       )
     },
-    [editorRef, onChange]
+    [
+      CodeMirror,
+      handleCodeChange,
+      handleCodeFocus,
+      onHighlightChange,
+      mode,
+      elementProps.onBlur,
+      readOnly,
+      value,
+    ]
   )
 
-  const handleGutterMouseDown = useCallback(
-    (event: any) => {
-      const target = event.domEvent.target
-      if (target.classList.contains('ace_gutter-cell')) {
-        const row = event.getDocumentPosition().row
-        handleToggleSelectLine(row)
-      }
+  return (
+    <Stack space={4}>
+      {languageFieldMember && (
+        <LanguageField {...props} member={languageFieldMember} languages={languages} />
+      )}
+
+      {type.options?.withFilename && filenameMember && (
+        <MemberField
+          member={filenameMember}
+          renderItem={renderItem}
+          renderField={renderField}
+          renderInput={renderInput}
+          renderPreview={renderPreview}
+        />
+      )}
+
+      {codeFieldMember && (
+        <MemberField
+          member={codeFieldMember}
+          renderInput={renderCodeInput}
+          renderItem={renderItem}
+          renderField={renderField}
+          renderPreview={renderPreview}
+        />
+      )}
+    </Stack>
+  )
+}
+
+function LanguageField(
+  props: CodeInputProps & {member: FieldMember; languages: CodeInputLanguage[]}
+) {
+  const {member, languages, renderItem, renderField, renderPreview} = props
+  const renderLanguageInput = useCallback(
+    (inputProps: Omit<InputProps, 'renderDefault'>) => {
+      return (
+        <Select
+          {...(inputProps as StringInputProps)}
+          value={(inputProps as StringInputProps).value ?? defaultMode}
+          onChange={(e) => {
+            const newValue = e.currentTarget.value
+            inputProps.onChange(newValue ? set(newValue) : unset())
+          }}
+        >
+          {languages.map((lang: {title: string; value: string}) => (
+            <option key={lang.value} value={lang.value}>
+              {lang.title}
+            </option>
+          ))}
+        </Select>
+      )
     },
-    [handleToggleSelectLine]
+    [languages]
   )
 
-  useEffect(() => {
-    const editor = editorRef?.current?.editor
-    return () => {
-      editor?.session?.removeListener('guttermousedown', handleGutterMouseDown)
-    }
-  }, [editorRef, handleGutterMouseDown])
-
-  const handleEditorLoad = useCallback(
-    (editor: any) => {
-      editor?.on('guttermousedown', handleGutterMouseDown)
-    },
-    [handleGutterMouseDown]
+  return (
+    <MemberField
+      member={member}
+      renderItem={renderItem}
+      renderField={renderField}
+      renderInput={renderLanguageInput}
+      renderPreview={renderPreview}
+    />
   )
+}
 
-  const getLanguageAlternatives = useCallback((): CodeInputLanguage[] => {
+function useFieldMember(members: ObjectMember[], fieldName: string) {
+  return useMemo(
+    () =>
+      members.find(
+        (member): member is FieldMember => member.kind === 'field' && member.name === fieldName
+      ),
+    [members, fieldName]
+  )
+}
+
+function useLanguageAlternatives(type: CodeSchemaType) {
+  return useMemo((): CodeInputLanguage[] => {
     const languageAlternatives = type.options?.languageAlternatives
     if (!languageAlternatives) {
       return SUPPORTED_LANGUAGES
@@ -174,122 +252,4 @@ export function CodeInput(props: CodeInputProps) {
       return acc.concat({title, value: val, mode})
     }, [])
   }, [type])
-
-  const handleCodeChange = useCallback(
-    (code: string) => {
-      const path = PATH_CODE
-      const fixedLanguage = type.options?.language
-
-      onChange([
-        setIfMissing({_type: type.name, language: fixedLanguage}),
-        code ? set(code, path) : unset(path),
-      ])
-    },
-    [onChange, type]
-  )
-
-  const languages = getLanguageAlternatives().slice()
-
-  const fixedLanguage = type.options?.language
-
-  const language = value?.language || fixedLanguage
-
-  // the language config from the schema
-  const configured = languages.find((entry) => entry.value === language)
-
-  const mode = configured?.mode ?? resolveAliasedLanguage(language) ?? 'text'
-
-  const renderLanguageInput = useCallback(
-    (inputProps: Omit<InputProps, 'renderDefault'>) => {
-      return (
-        <Select
-          {...(inputProps as StringInputProps)}
-          onChange={(e) => {
-            const newValue = e.currentTarget.value
-            inputProps.onChange(newValue ? set(newValue) : unset())
-          }}
-        >
-          {languages.map((lang: {title: string; value: string}) => (
-            <option key={lang.value} value={lang.value}>
-              {lang.title}
-            </option>
-          ))}
-        </Select>
-      )
-    },
-    [languages]
-  )
-
-  const CodeMirror = useCodeMirror()
-
-  const renderCodeInput: RenderInputCallback = useCallback(
-    (inputProps) => {
-      return (
-        <EditorContainer radius={1} shadow={1} readOnly={readOnly}>
-          {CodeMirror && (
-            <Suspense fallback={<Card padding={2}>Loading code editor...</Card>}>
-              <CodeMirror
-                mode={mode}
-                ref={editorRef}
-                onChange={handleCodeChange}
-                value={inputProps.value as string}
-                /*       markers={
-                  value && value.highlightedLines
-                    ? createHighlightMarkers(value.highlightedLines)
-                    : undefined
-                }*/
-                readOnly={readOnly}
-                onFocus={handleCodeFocus}
-                onBlur={elementProps.onBlur}
-              />
-            </Suspense>
-          )}
-        </EditorContainer>
-      )
-    },
-    [
-      CodeMirror,
-      handleCodeChange,
-      handleCodeFocus,
-      handleEditorLoad,
-      mode,
-      elementProps.onBlur,
-      readOnly,
-      value,
-    ]
-  )
-
-  return (
-    <Stack space={4}>
-      {languageFieldMember && (
-        <MemberField
-          member={languageFieldMember}
-          renderItem={renderItem}
-          renderField={renderField}
-          renderInput={renderLanguageInput}
-          renderPreview={renderPreview}
-        />
-      )}
-
-      {type.options?.withFilename && filenameMember && (
-        <MemberField
-          member={filenameMember}
-          renderItem={renderItem}
-          renderField={renderField}
-          renderInput={renderInput}
-          renderPreview={renderPreview}
-        />
-      )}
-
-      {codeFieldMember && (
-        <MemberField
-          member={codeFieldMember}
-          renderInput={renderCodeInput}
-          renderItem={renderItem}
-          renderField={renderField}
-          renderPreview={renderPreview}
-        />
-      )}
-    </Stack>
-  )
 }
