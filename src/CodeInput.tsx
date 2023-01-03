@@ -110,7 +110,7 @@ export function CodeInput(props: CodeInputProps) {
   // the language config from the schema
   const configured = languages.find((entry) => entry.value === language)
 
-  const mode = configured?.mode ?? resolveAliasedLanguage(language) ?? defaultMode
+  const languageMode = configured?.mode ?? resolveAliasedLanguage(language) ?? defaultMode
 
   const CodeMirror = useCodeMirror()
 
@@ -121,7 +121,7 @@ export function CodeInput(props: CodeInputProps) {
           {CodeMirror && (
             <Suspense fallback={<Card padding={2}>Loading code editor...</Card>}>
               <CodeMirror
-                mode={mode}
+                languageMode={languageMode}
                 onChange={handleCodeChange}
                 value={inputProps.value as string}
                 highlightLines={value?.highlightedLines}
@@ -140,7 +140,7 @@ export function CodeInput(props: CodeInputProps) {
       handleCodeChange,
       handleCodeFocus,
       onHighlightChange,
-      mode,
+      languageMode,
       elementProps.onBlur,
       readOnly,
       value,

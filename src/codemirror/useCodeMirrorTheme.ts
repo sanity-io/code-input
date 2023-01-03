@@ -14,12 +14,13 @@ export function useCodeMirrorTheme(): Extension {
       settings: {
         background: card.enabled.bg,
         foreground: card.enabled.fg,
+        lineHighlight: card.enabled.bg,
         caret: card.enabled.fg,
-        selection: hues.gray[dark ? 900 : 100].hex,
-        selectionMatch: hues.blue[dark ? 900 : 100].hex,
-        lineHighlight: '#8a91991a',
+        selection: hues.blue[dark ? 800 : 100].hex,
+        selectionMatch: hues.blue[dark ? 800 : 100].hex,
         gutterBackground: card.disabled.bg,
         gutterForeground: card.disabled.fg,
+        gutterActiveForeground: card.enabled.fg,
       },
       styles: [
         {

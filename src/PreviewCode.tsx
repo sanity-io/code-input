@@ -62,7 +62,7 @@ export default function PreviewCode(props: PreviewCodeProps) {
                 highlightActiveLineGutter: false,
                 highlightActiveLine: false,
               }}
-              mode={language}
+              languageMode={language}
 
               /*      markers={
                 selection?.highlightedLines
