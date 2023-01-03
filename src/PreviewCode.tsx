@@ -1,9 +1,10 @@
-import React, {Suspense, useEffect, useRef} from 'react'
+import React, {Suspense} from 'react'
 import styled from 'styled-components'
 import {Box, Card} from '@sanity/ui'
-import {CodeInputValue} from './types'
+import {CodeInputValue, CodeSchemaType} from './types'
 import {PreviewProps} from 'sanity'
 import {useCodeMirror} from './codemirror/useCodeMirror'
+import {useLanguageMode} from './codemirror/useLanguageMode'
 
 const PreviewContainer = styled(Box)`
   position: relative;
@@ -20,24 +21,8 @@ export interface PreviewCodeProps extends PreviewProps {
  * @public
  */
 export default function PreviewCode(props: PreviewCodeProps) {
-  const aceEditorRef = useRef<any>()
-
-  useEffect(() => {
-    if (!aceEditorRef?.current) return
-
-    const editor = aceEditorRef.current?.editor
-
-    if (editor) {
-      // Avoid cursor and focus tracking by Ace
-      editor.renderer.$cursorLayer.element.style.opacity = 0
-      editor.textInput.getElement().disabled = true
-    }
-  }, [])
-
   const {selection, schemaType: type} = props
-  const fixedLanguage = type?.options?.language
-
-  const language = selection?.language || fixedLanguage || 'text'
+  const {languageMode} = useLanguageMode(type as CodeSchemaType, props.selection)
 
   const CodeMirror = useCodeMirror()
   return (
@@ -46,7 +31,6 @@ export default function PreviewCode(props: PreviewCodeProps) {
         {CodeMirror && (
           <Suspense fallback={<Card padding={2}>Loading code preview...</Card>}>
             <CodeMirror
-              ref={aceEditorRef}
               readOnly
               editable={false}
               value={selection?.code || ''}
@@ -57,13 +41,7 @@ export default function PreviewCode(props: PreviewCodeProps) {
                 highlightActiveLineGutter: false,
                 highlightActiveLine: false,
               }}
-              languageMode={language}
-
-              /*      markers={
-                selection?.highlightedLines
-                  ? createHighlightMarkers(selection.highlightedLines)
-                  : undefined
-              }*/
+              languageMode={languageMode}
             />
           </Suspense>
         )}
