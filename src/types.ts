@@ -1,6 +1,5 @@
-/**
- * @public
- */
+import {ObjectSchemaType} from 'sanity'
+
 export interface CodeInputLanguage {
   title: string
   value: string
@@ -16,4 +15,21 @@ export interface CodeInputValue {
   filename?: string
   language?: string
   highlightedLines?: number[]
+}
+/**
+ * @public
+ */
+export interface CodeOptions {
+  theme?: string
+  darkTheme?: string
+  languageAlternatives?: CodeInputLanguage[]
+  language?: string
+  withFilename?: boolean
+}
+
+/**
+ * @public
+ */
+export type CodeSchemaType = Omit<ObjectSchemaType, 'options'> & {
+  options?: CodeOptions
 }

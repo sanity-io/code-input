@@ -19,7 +19,15 @@ export interface CodeMirrorProps extends ReactCodeMirrorProps {
  * It is also responsible for integrating any CodeMirror extensions.
  */
 const CodeMirrorProxy = forwardRef<ReactCodeMirrorRef, CodeMirrorProps>((props, ref) => {
-  const {value, languageMode, onHighlightChange, highlightLines, ...codeMirrorProps} = props
+  const {
+    value,
+    readOnly,
+    basicSetup,
+    languageMode,
+    onHighlightChange,
+    highlightLines,
+    ...codeMirrorProps
+  } = props
   const theme = useCodeMirrorTheme()
   const [editorView, setEditorView] = useState<EditorView | undefined>(undefined)
 
@@ -29,6 +37,7 @@ const CodeMirrorProxy = forwardRef<ReactCodeMirrorRef, CodeMirrorProps>((props, 
     const baseExtensions = [
       highlightLine({
         onHighlightChange,
+        readOnly,
       }),
       EditorView.lineWrapping,
     ]
@@ -36,7 +45,7 @@ const CodeMirrorProxy = forwardRef<ReactCodeMirrorRef, CodeMirrorProps>((props, 
       return [...baseExtensions, languageExtension]
     }
     return baseExtensions
-  }, [onHighlightChange, languageExtension])
+  }, [onHighlightChange, languageExtension, readOnly])
 
   useEffect(() => {
     if (editorView) {
@@ -71,9 +80,11 @@ const CodeMirrorProxy = forwardRef<ReactCodeMirrorRef, CodeMirrorProps>((props, 
         setEditorView(view)
       }}
       initialState={initialState}
-      basicSetup={{
-        highlightActiveLine: false,
-      }}
+      basicSetup={
+        basicSetup ?? {
+          highlightActiveLine: false,
+        }
+      }
     />
   )
 })

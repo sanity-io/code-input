@@ -6,7 +6,6 @@ import {
   MemberField,
   ObjectInputProps,
   ObjectMember,
-  ObjectSchemaType,
   RenderInputCallback,
   set,
   setIfMissing,
@@ -15,9 +14,10 @@ import {
 } from 'sanity'
 import {Card, Select, Stack, ThemeColorSchemeKey} from '@sanity/ui'
 import styled from 'styled-components'
-import {CodeInputLanguage, CodeInputValue} from './types'
-import {LANGUAGE_ALIASES, PATH_CODE, SUPPORTED_LANGUAGES} from './config'
+import {CodeInputLanguage, CodeInputValue, CodeSchemaType} from './types'
+import {PATH_CODE} from './config'
 import {useCodeMirror} from './codemirror/useCodeMirror'
+import {useLanguageMode} from './codemirror/useLanguageMode'
 
 export type {CodeInputLanguage, CodeInputValue} from './types'
 
@@ -31,25 +31,6 @@ const EditorContainer = styled(Card)`
   height: 250px;
   overflow-y: auto;
 `
-const defaultMode = 'text'
-
-/**
- * @public
- */
-export interface CodeOptions {
-  theme?: string
-  darkTheme?: string
-  languageAlternatives?: CodeInputLanguage[]
-  language?: string
-  withFilename?: boolean
-}
-
-/**
- * @public
- */
-export type CodeSchemaType = Omit<ObjectSchemaType, 'options'> & {
-  options?: CodeOptions
-}
 
 /**
  * @public
@@ -57,10 +38,6 @@ export type CodeSchemaType = Omit<ObjectSchemaType, 'options'> & {
 export type CodeInputProps = ObjectInputProps<CodeInputValue, CodeSchemaType> & {
   /** @internal */
   colorScheme?: ThemeColorSchemeKey
-}
-
-function resolveAliasedLanguage(lang?: string) {
-  return (lang && LANGUAGE_ALIASES[lang]) ?? lang
 }
 
 export function CodeInput(props: CodeInputProps) {
@@ -103,14 +80,7 @@ export function CodeInput(props: CodeInputProps) {
     },
     [onChange, type]
   )
-  const languages = useLanguageAlternatives(props.schemaType)
-  const fixedLanguage = type.options?.language
-  const language = value?.language || fixedLanguage
-
-  // the language config from the schema
-  const configured = languages.find((entry) => entry.value === language)
-
-  const languageMode = configured?.mode ?? resolveAliasedLanguage(language) ?? defaultMode
+  const {languages, language, languageMode} = useLanguageMode(props.schemaType, props.value)
 
   const CodeMirror = useCodeMirror()
 
@@ -150,7 +120,12 @@ export function CodeInput(props: CodeInputProps) {
   return (
     <Stack space={4}>
       {languageFieldMember && (
-        <LanguageField {...props} member={languageFieldMember} languages={languages} />
+        <LanguageField
+          {...props}
+          member={languageFieldMember}
+          language={language}
+          languages={languages}
+        />
       )}
 
       {type.options?.withFilename && filenameMember && (
@@ -177,15 +152,15 @@ export function CodeInput(props: CodeInputProps) {
 }
 
 function LanguageField(
-  props: CodeInputProps & {member: FieldMember; languages: CodeInputLanguage[]}
+  props: CodeInputProps & {member: FieldMember; languages: CodeInputLanguage[]; language: string}
 ) {
-  const {member, languages, renderItem, renderField, renderPreview} = props
+  const {member, languages, language, renderItem, renderField, renderPreview} = props
   const renderLanguageInput = useCallback(
     (inputProps: Omit<InputProps, 'renderDefault'>) => {
       return (
         <Select
           {...(inputProps as StringInputProps)}
-          value={(inputProps as StringInputProps).value ?? defaultMode}
+          value={language}
           onChange={(e) => {
             const newValue = e.currentTarget.value
             inputProps.onChange(newValue ? set(newValue) : unset())
@@ -199,7 +174,7 @@ function LanguageField(
         </Select>
       )
     },
-    [languages]
+    [languages, language]
   )
 
   return (
@@ -221,35 +196,4 @@ function useFieldMember(members: ObjectMember[], fieldName: string) {
       ),
     [members, fieldName]
   )
-}
-
-function useLanguageAlternatives(type: CodeSchemaType) {
-  return useMemo((): CodeInputLanguage[] => {
-    const languageAlternatives = type.options?.languageAlternatives
-    if (!languageAlternatives) {
-      return SUPPORTED_LANGUAGES
-    }
-
-    if (!Array.isArray(languageAlternatives)) {
-      throw new Error(
-        `'options.languageAlternatives' should be an array, got ${typeof languageAlternatives}`
-      )
-    }
-
-    return languageAlternatives.reduce((acc: CodeInputLanguage[], {title, value: val, mode}) => {
-      const alias = LANGUAGE_ALIASES[val]
-      if (alias) {
-        // eslint-disable-next-line no-console
-        console.warn(
-          `'options.languageAlternatives' lists a language with value "%s", which is an alias of "%s" - please replace the value to read "%s"`,
-          val,
-          alias,
-          alias
-        )
-
-        return acc.concat({title, value: alias, mode: mode})
-      }
-      return acc.concat({title, value: val, mode})
-    }, [])
-  }, [type])
 }
