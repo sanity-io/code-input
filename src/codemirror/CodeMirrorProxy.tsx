@@ -8,7 +8,7 @@ import {highlightLine, highlightState, setHighlightedLines} from './highlightLin
 import {EditorView} from '@codemirror/view'
 
 export interface CodeMirrorProps extends ReactCodeMirrorProps {
-  mode?: string
+  languageMode?: string
   highlightLines?: number[]
   onHighlightChange?: (lines: number[]) => void
 }
@@ -19,40 +19,11 @@ export interface CodeMirrorProps extends ReactCodeMirrorProps {
  * It is also responsible for integrating any CodeMirror extensions.
  */
 const CodeMirrorProxy = forwardRef<ReactCodeMirrorRef, CodeMirrorProps>((props, ref) => {
-  const {value, mode, onHighlightChange, highlightLines, ...codeMirrorProps} = props
+  const {value, languageMode, onHighlightChange, highlightLines, ...codeMirrorProps} = props
   const theme = useCodeMirrorTheme()
   const [editorView, setEditorView] = useState<EditorView | undefined>(undefined)
-  const codeConfig = useContext(CodeInputConfigContext)
 
-  const [languageExtension, setLanguageExtension] = useState<Extension | undefined>()
-
-  useEffect(() => {
-    const customModes = codeConfig?.codeModes ?? []
-    const modes = [...customModes, ...defaultCodeModes]
-
-    const codeMode = modes.find((m) => m.name === mode)
-    if (!codeMode?.loader) {
-      console.warn(
-        `Found no codeMode for language mode ${mode}, syntax highlighting will be disabled.`
-      )
-    }
-    let active = true
-    Promise.resolve(codeMode?.loader())
-      .then((extension) => {
-        if (active) {
-          setLanguageExtension(extension)
-        }
-      })
-      .catch((e) => {
-        console.error(`Failed to load language mode ${mode}`, e)
-        if (active) {
-          setLanguageExtension(undefined)
-        }
-      })
-    return () => {
-      active = false
-    }
-  }, [mode, codeConfig])
+  const languageExtension = useLanguageExtension(languageMode)
 
   const extensions = useMemo(() => {
     const baseExtensions = [
@@ -99,8 +70,47 @@ const CodeMirrorProxy = forwardRef<ReactCodeMirrorRef, CodeMirrorProps>((props, 
         setEditorView(view)
       }}
       initialState={initialState}
+      basicSetup={{
+        highlightActiveLine: false,
+      }}
     />
   )
 })
+
+function useLanguageExtension(mode?: string) {
+  const codeConfig = useContext(CodeInputConfigContext)
+
+  const [languageExtension, setLanguageExtension] = useState<Extension | undefined>()
+
+  useEffect(() => {
+    const customModes = codeConfig?.codeModes ?? []
+    const modes = [...customModes, ...defaultCodeModes]
+
+    const codeMode = modes.find((m) => m.name === mode)
+    if (!codeMode?.loader) {
+      console.warn(
+        `Found no codeMode for language mode ${mode}, syntax highlighting will be disabled.`
+      )
+    }
+    let active = true
+    Promise.resolve(codeMode?.loader())
+      .then((extension) => {
+        if (active) {
+          setLanguageExtension(extension)
+        }
+      })
+      .catch((e) => {
+        console.error(`Failed to load language mode ${mode}`, e)
+        if (active) {
+          setLanguageExtension(undefined)
+        }
+      })
+    return () => {
+      active = false
+    }
+  }, [mode, codeConfig])
+
+  return languageExtension
+}
 
 export default CodeMirrorProxy
