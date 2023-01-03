@@ -30,6 +30,7 @@ const CodeMirrorProxy = forwardRef<ReactCodeMirrorRef, CodeMirrorProps>((props, 
       highlightLine({
         onHighlightChange,
       }),
+      EditorView.lineWrapping,
     ]
     if (languageExtension) {
       return [...baseExtensions, languageExtension]

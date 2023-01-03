@@ -1,4 +1,4 @@
-import React, {Suspense, useCallback, useEffect, useRef} from 'react'
+import React, {Suspense, useEffect, useRef} from 'react'
 import styled from 'styled-components'
 import {Box, Card} from '@sanity/ui'
 import {CodeInputValue} from './types'
@@ -34,10 +34,6 @@ export default function PreviewCode(props: PreviewCodeProps) {
     }
   }, [])
 
-  const handleEditorChange = useCallback(() => {
-    // do nothing when the editor changes
-  }, [])
-
   const {selection, schemaType: type} = props
   const fixedLanguage = type?.options?.language
 
@@ -51,7 +47,6 @@ export default function PreviewCode(props: PreviewCodeProps) {
           <Suspense fallback={<Card padding={2}>Loading code preview...</Card>}>
             <CodeMirror
               ref={aceEditorRef}
-              onChange={handleEditorChange}
               readOnly
               editable={false}
               value={selection?.code || ''}
