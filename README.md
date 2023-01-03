@@ -7,7 +7,7 @@
 
 Code input for [Sanity](https://sanity.io/).
 
-Currently only a subset of languages and features are exposed, over time we will implement a richer set of options.
+Currently only a subset of languages and features are exposed, but more can be added via plugin options.
 
 ![Code input](assets/basic-input.png)
 
@@ -58,7 +58,7 @@ Now you can use the `code` type in your schema types:
 
 ## Options
 
-- `language` - Default language for this code field. If none is provided, code-input will use the most recently selected language (stored in localstorage)
+- `language` - Default language for this code field. 
 - `languageAlternatives` - Array of languages that should be available (se its format in the example below)
 - `withFilename` - Boolean option to display input field for filename
 

@@ -64,6 +64,7 @@ export const highlightState: {
 
 export interface HighlightLineConfig {
   onHighlightChange?: (lines: number[]) => void
+  readOnly?: boolean
 }
 
 const highlightTheme = EditorView.baseTheme({
@@ -97,34 +98,36 @@ const highlightTheme = EditorView.baseTheme({
 export const highlightLine = (config: HighlightLineConfig): Extension => {
   return [
     lineHighlightField,
-    lineNumbers({
-      domEventHandlers: {
-        mousedown: (editorView, lineInfo) => {
-          // Determine if the line for the clicked gutter line number has highlighted state or not
-          const line = editorView.state.doc.lineAt(lineInfo.from)
-          let isHighlighted = false
-          editorView.state
-            .field(lineHighlightField)
-            .between(line.from, line.to, (from, to, value) => {
-              if (value) {
-                isHighlighted = true
-                return false // stop iteration
-              }
-              return undefined
-            })
+    config.readOnly
+      ? []
+      : lineNumbers({
+          domEventHandlers: {
+            mousedown: (editorView, lineInfo) => {
+              // Determine if the line for the clicked gutter line number has highlighted state or not
+              const line = editorView.state.doc.lineAt(lineInfo.from)
+              let isHighlighted = false
+              editorView.state
+                .field(lineHighlightField)
+                .between(line.from, line.to, (from, to, value) => {
+                  if (value) {
+                    isHighlighted = true
+                    return false // stop iteration
+                  }
+                  return undefined
+                })
 
-          if (isHighlighted) {
-            editorView.dispatch({effects: removeLineHighlight.of(line.from)})
-          } else {
-            editorView.dispatch({effects: addLineHighlight.of(line.from)})
-          }
-          if (config?.onHighlightChange) {
-            config.onHighlightChange(editorView.state.toJSON(highlightState).highlight)
-          }
-          return true
-        },
-      },
-    }),
+              if (isHighlighted) {
+                editorView.dispatch({effects: removeLineHighlight.of(line.from)})
+              } else {
+                editorView.dispatch({effects: addLineHighlight.of(line.from)})
+              }
+              if (config?.onHighlightChange) {
+                config.onHighlightChange(editorView.state.toJSON(highlightState).highlight)
+              }
+              return true
+            },
+          },
+        }),
     highlightTheme,
   ]
 }

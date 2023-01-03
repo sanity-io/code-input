@@ -1,13 +1,9 @@
 import {CodeBlockIcon} from '@sanity/icons'
-import {CodeInput, CodeOptions} from './CodeInput'
-import PreviewCode, {PreviewCodeProps} from './PreviewCode'
+import {CodeInput} from './CodeInput'
+import PreviewCode from './PreviewCode'
 import {getMedia} from './getMedia'
 import {defineType, ObjectDefinition} from 'sanity'
-
-export type {CodeInputProps, CodeSchemaType} from './CodeInput'
-
-export type {CodeInputLanguage, CodeInputValue} from './types'
-export type {PreviewCode, PreviewCodeProps, CodeInput}
+import {CodeOptions} from './types'
 
 /**
  * @public
