@@ -49,10 +49,12 @@ jspm_packages
 # Cache
 .cache
 
-# Compiled plugin
-lib
-dts
-
 # Yalc
 .yalc
 yalc.lock
+
+# npm package zips
+*.tgz
+
+# Compiled plugin
+lib
