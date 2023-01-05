@@ -30,6 +30,6 @@ export interface CodeOptions {
 /**
  * @public
  */
-export type CodeSchemaType = Omit<ObjectSchemaType, 'options'> & {
+export interface CodeSchemaType extends Omit<ObjectSchemaType, 'options'> {
   options?: CodeOptions
 }
