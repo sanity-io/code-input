@@ -28,7 +28,7 @@ describe('useCodeMirror - client', () => {
         <Suspense fallback={fallbackString}>
           {CodeMirror && (
             <ThemeProvider theme={studioTheme}>
-              <CodeMirror />
+              <CodeMirror languageMode={'tsx'} />
             </ThemeProvider>
           )}
         </Suspense>
@@ -40,7 +40,6 @@ describe('useCodeMirror - client', () => {
 
     await waitForElementToBeRemoved(() => queryByText(container, fallbackString))
 
-    // note: ace will console.error log when mounting
-    expect(container.querySelector('.ace_editor')).toBeDefined()
+    expect(container.querySelector('.cm-theme')).toBeTruthy()
   })
 })
