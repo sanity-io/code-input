@@ -7,75 +7,69 @@
 
 Code input for [Sanity](https://sanity.io/).
 
-Currently only a subset of languages and features are exposed, but more can be added via plugin options.
+A subset of languages and features are exposed by default. More can be added via the plugin options.
 
 ![Code input](assets/basic-input.png)
 
-Click lines to highlight them.
+Click the line numbers to toggle line highlighting.
 
 ## Installation
 
-```
-npm install --save @sanity/code-input
-```
-
-or
-
-```
-yarn add @sanity/code-input
+```sh
+npm install @sanity/code-input
 ```
 
 ## Usage
 
-Add it as a plugin in sanity.config.ts (or .js):
+Add it as a plugin in `sanity.config.ts` (or .js):
 
 ```js
-import { codeInput } from "@sanity/code-input";
+import {codeInput} from '@sanity/code-input'
 
 export default defineConfig({
   // ...
-  plugins: [
-    codeInput(),
-  ] 
+  plugins: [codeInput()],
 })
 ```
 
 Now you can use the `code` type in your schema types:
 
 ```js
-// [...]
-{
+import {defineType, defineField} from 'sanity'
+
+defineType({
+  // [...]
   fields: [
-    // [...]
-    {
-      name: 'exampleUsage',
-      title: 'Example usage',
+    defineField({
       type: 'code',
-    },
-  ]
-}
+      name: 'myCodeField',
+      title: 'My code field',
+    }),
+  ],
+})
 ```
 
 ## Options
 
-- `language` - Default language for this code field. 
+- `language` - Default language for this code field.
 - `languageAlternatives` - Array of languages that should be available (se its format in the example below)
 - `withFilename` - Boolean option to display input field for filename
 
 ```js
 //...fields,
 defineField({
-  name: 'exampleUsage',
-  title: 'Code with all options',
   type: 'code',
+  name: 'myCodeField',
+  title: 'Code with all options',
   options: {
     language: 'javascript',
     languageAlternatives: [
       {title: 'Javascript', value: 'javascript'},
       {title: 'HTML', value: 'html'},
       {title: 'CSS', value: 'css'},
-    ]
-  }
+    ],
+    withFilename: true,
+  },
 })
 ```
 
@@ -83,9 +77,10 @@ defineField({
 
 ## Add support for more languages
 
-Only a subset of languages are have syntax highlighting support by default (see full list [here](https://github.com/sanity-io/code-input/blob/main/src/codemirror/defaultCodeModes.ts)). 
+Only a subset of languages are have syntax highlighting support by default (see full list [here](https://github.com/sanity-io/code-input/blob/main/src/codemirror/defaultCodeModes.ts)).
 
 ### Mode: Reuse an existing language
+
 Some languages are similar enough, that reusing one of the default highlighters will be "good enough".
 To reuse an existing language, specify mode for a value in `languageAlternatives`:
 
@@ -99,8 +94,8 @@ defineField({
     languageAlternatives: [
       //Adds support for zh language, using sh syntax highlighting
       {title: 'ZH', value: 'zh', mode: 'sh'},
-    ]
-  }
+    ],
+  },
 })
 ```
 
@@ -108,7 +103,7 @@ defineField({
 
 You can add support for additional languages, or override existing ones, by providing a `codeModes` array to the plugin.
 `codeModes` should be an array where each value is an object with a name and a loader function.
-The loader function should return a codemirror `Extension` or a `Promise`  that resolves to `Extension`.
+The loader function should return a codemirror `Extension` or a `Promise` that resolves to `Extension`.
 
 The loader function will be invoked when the language is selected.
 
@@ -128,25 +123,25 @@ codeInput({
       name: 'angular',
       // dynamic import the angular package, and initialize the plugin after it is loaded
       // This way, the language is only when it is selected
-      loader: () => import('@codemirror/lang-angular').then(({angular}) => angular())
-    }
-  ]
+      loader: () => import('@codemirror/lang-angular').then(({angular}) => angular()),
+    },
+  ],
 })
 ```
 
 ```js
-// in a code field, you can now use rust as a language as a value, or mode 
+// in a code field, you can now use rust as a language as a value, or mode
 defineField({
-    name: 'exampleRust',
-    title: 'Example usage',
-    type: 'code',
-    options: {
-      languageAlternatives: [
-        {title: 'Javascript', value: 'javascript'},
-        {title: 'Angular', value: 'angular' },
-        {title: 'Angular-like', value: 'angular-like', mode: 'angular' }, // uses angular highlighter
-     ]
-  }
+  name: 'exampleRust',
+  title: 'Example usage',
+  type: 'code',
+  options: {
+    languageAlternatives: [
+      {title: 'Javascript', value: 'javascript'},
+      {title: 'Angular', value: 'angular'},
+      {title: 'Angular-like', value: 'angular-like', mode: 'angular'}, // uses angular highlighter
+    ],
+  },
 })
 ```
 
@@ -167,29 +162,30 @@ codeInput({
     {
       name: 'rust',
       // dynamic import so the language is only be loaded on demand
-      loader: () => import('@codemirror/legacy-modes/mode/rust').then(({rust}) => StreamLanguage.define(rust))
-    }
-  ]
+      loader: () =>
+        import('@codemirror/legacy-modes/mode/rust').then(({rust}) => StreamLanguage.define(rust)),
+    },
+  ],
 })
 ```
 
 ```js
-// in a code field, you can now use rust as a language as a value, or mode 
+// in a code field, you can now use rust as a language as a value, or mode
 defineField({
-    name: 'exampleRust',
-    title: 'Example usage',
-    type: 'code',
-    options: {
-      languageAlternatives: [
-        {title: 'Javascript', value: 'javascript'},
-        {title: 'Rust', value: 'rust' },
-        {title: 'Rust-like', value: 'rust-like', mode: 'rust' }, // uses rust highlighter
-     ]
-  }
+  name: 'exampleRust',
+  title: 'Example usage',
+  type: 'code',
+  options: {
+    languageAlternatives: [
+      {title: 'Javascript', value: 'javascript'},
+      {title: 'Rust', value: 'rust'},
+      {title: 'Rust-like', value: 'rust-like', mode: 'rust'}, // uses rust highlighter
+    ],
+  },
 })
 ```
 
-Note: `@sanity/code-input` already includes the `@codemirror/legacy-modes` and `@codemirror/language` dependencies, 
+Note: `@sanity/code-input` already includes the `@codemirror/legacy-modes` and `@codemirror/language` dependencies,
 so no need to install them explicitly.
 
 ## Data model
@@ -200,7 +196,7 @@ so no need to install them explicitly.
   language: 'js',
   highlightedLines: [1, 2],
   code: 'const foo = "bar"\nconsole.log(foo.toUpperCase())\n// BAR',
-  filename: 'available when enabled'        
+  filename: 'available when enabled'
 }
 ```
 
