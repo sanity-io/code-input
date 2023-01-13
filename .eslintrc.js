@@ -2,13 +2,14 @@ module.exports = {
   env: {
     browser: true,
     node: false,
-    jest: true
+    jest: true,
   },
   extends: [
+    'sanity',
     'sanity/react', // must come before sanity/typescript
     'sanity/typescript',
-    'plugin:prettier/recommended',
     'plugin:react-hooks/recommended',
+    'plugin:prettier/recommended',
   ],
   overrides: [
     {
