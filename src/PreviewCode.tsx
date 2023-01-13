@@ -1,4 +1,4 @@
-import React, {Suspense} from 'react'
+import {Suspense} from 'react'
 import styled from 'styled-components'
 import {Box, Card} from '@sanity/ui'
 import {CodeInputValue, CodeSchemaType} from './types'

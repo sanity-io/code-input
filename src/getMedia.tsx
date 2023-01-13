@@ -1,5 +1,3 @@
-import React from 'react'
-
 export function getMedia(language?: string) {
   if (language === 'jsx') {
     return (

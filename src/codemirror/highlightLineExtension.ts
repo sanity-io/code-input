@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+
 import {Extension, StateEffect, StateField} from '@codemirror/state'
 import {Decoration, EditorView, lineNumbers} from '@codemirror/view'
 import {hues} from '@sanity/color'

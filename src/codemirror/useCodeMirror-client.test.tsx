@@ -1,5 +1,6 @@
 /** @jest-environment jsdom */
-import React, {Suspense} from 'react'
+
+import {Suspense} from 'react'
 
 import {queryByText, render, waitForElementToBeRemoved} from '@testing-library/react'
 import {useCodeMirror} from './useCodeMirror'
