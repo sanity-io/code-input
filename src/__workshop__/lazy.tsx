@@ -1,8 +1,9 @@
-import {Card, Container} from '@sanity/ui'
+import {Box, Card, Container, Text} from '@sanity/ui'
 import {Suspense, useState} from 'react'
 import {useCodeMirror} from '../codemirror/useCodeMirror'
 import {SUPPORTED_LANGUAGES} from '../config'
 import {useSelect} from '@sanity/ui-workshop'
+import styled from 'styled-components'
 
 const langs = {
   ...Object.fromEntries(SUPPORTED_LANGUAGES.map((l) => [l.title, l.mode ?? l.value])),
@@ -11,21 +12,33 @@ const langs = {
 
 const defaultSnippet = `
 <Card border padding={2}>
- {variable}
+  {variable}
 </Card>
+`.trim()
+
+const Root = styled(Card)`
+  & > .cm-theme {
+    height: 100%;
+  }
 `
 
 export default function CodeMirrorStory() {
   const language = useSelect('Language mode', langs, 'tsx')
   const [code, setCode] = useState(defaultSnippet)
   const [highlights, setHighlights] = useState<number[]>([])
-
   const CodeMirror = useCodeMirror()
+
   return (
-    <Container width={1}>
-      <Card margin={4} border>
+    <Container padding={4} sizing="border" width={1}>
+      <Root border overflow="hidden" radius={3} style={{height: 300}}>
         {CodeMirror && (
-          <Suspense fallback={<Card padding={2}>Loading code editor...</Card>}>
+          <Suspense
+            fallback={
+              <Box padding={3}>
+                <Text>Loading code editor...</Text>
+              </Box>
+            }
+          >
             <CodeMirror
               value={code}
               onChange={setCode}
@@ -35,7 +48,7 @@ export default function CodeMirrorStory() {
             />
           </Suspense>
         )}
-      </Card>
+      </Root>
     </Container>
   )
 }

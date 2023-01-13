@@ -2,13 +2,16 @@ import {defineScope} from '@sanity/ui-workshop'
 import {lazy} from 'react'
 
 export default defineScope({
-  name: 'code-mirror',
-  title: 'CodeMirror',
   stories: [
+    {
+      name: 'props',
+      title: 'Props',
+      component: lazy(() => import('./props')),
+    },
     {
       name: 'lazy',
       title: 'Lazy',
-      component: lazy(() => import('./CodeMirrorStory')),
+      component: lazy(() => import('./lazy')),
     },
   ],
 })
