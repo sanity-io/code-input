@@ -93,7 +93,7 @@ Now you can use the `code` type in your schema types:
 
 ## Add support for more languages
 
-Only a subset of languages are supported by default (see full list [here](https://github.com/sanity-io/sanity/blob/current/packages/@sanity/code-input/src/config.ts#L4)). You can add support for other languages by importing the ace mode yourself, and specifying `mode` for the `languageAlternatives` schema config.
+Only a subset of languages are supported by default (see full list [here](https://github.com/sanity-io/code-input/blob/main/src/config.ts#L4)). You can add support for other languages by importing the ace mode yourself, and specifying `mode` for the `languageAlternatives` schema config.
 
 Example: Add support for the Rust Programming Language
 
