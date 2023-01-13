@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-handler-names */
-import React, {Suspense, useCallback, useMemo} from 'react'
+
+import {Suspense, useCallback, useMemo} from 'react'
 import {
   FieldMember,
   InputProps,

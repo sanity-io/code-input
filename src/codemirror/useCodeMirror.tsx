@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react'
+import {lazy, useEffect, useState} from 'react'
 
-export const CodeMirrorProxy = React.lazy(() => import('./CodeMirrorProxy'))
+export const CodeMirrorProxy = lazy(() => import('./CodeMirrorProxy'))
 
 export function useCodeMirror() {
   const [mounted, setMounted] = useState(false)

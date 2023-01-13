@@ -1,5 +1,5 @@
 import {Card, Container} from '@sanity/ui'
-import React, {Suspense, useState} from 'react'
+import {Suspense, useState} from 'react'
 import {useCodeMirror} from '../codemirror/useCodeMirror'
 import {SUPPORTED_LANGUAGES} from '../config'
 import {useSelect} from '@sanity/ui-workshop'
