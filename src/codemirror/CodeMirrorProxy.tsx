@@ -1,4 +1,4 @@
-import React, {forwardRef, useContext, useEffect, useMemo, useState} from 'react'
+import {forwardRef, useContext, useEffect, useMemo, useState} from 'react'
 import CodeMirror, {ReactCodeMirrorProps, ReactCodeMirrorRef} from '@uiw/react-codemirror'
 import {useCodeMirrorTheme} from './useCodeMirrorTheme'
 import {Extension} from '@codemirror/state'
