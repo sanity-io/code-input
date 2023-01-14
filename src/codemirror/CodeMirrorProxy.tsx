@@ -1,15 +1,22 @@
 import {forwardRef, useCallback, useContext, useEffect, useMemo, useState} from 'react'
 import CodeMirror, {ReactCodeMirrorProps, ReactCodeMirrorRef} from '@uiw/react-codemirror'
-import {useCodeMirrorTheme} from './useCodeMirrorTheme'
+import {useCodeMirrorTheme} from './extensions/useCodeMirrorTheme'
 import {Extension} from '@codemirror/state'
 import {CodeInputConfigContext} from './CodeModeContext'
 import {defaultCodeModes} from './defaultCodeModes'
-import {highlightLine, highlightState, setHighlightedLines} from './highlightLineExtension'
+import {
+  highlightLine,
+  highlightState,
+  setHighlightedLines,
+} from './extensions/highlightLineExtension'
 import {EditorView} from '@codemirror/view'
+import {useRootTheme} from '@sanity/ui'
+import {useFontSizeExtension} from './extensions/useFontSize'
+import {useThemeExtension} from './extensions/theme'
 
 export interface CodeMirrorProps extends ReactCodeMirrorProps {
-  languageMode?: string
   highlightLines?: number[]
+  languageMode?: string
   onHighlightChange?: (lines: number[]) => void
 }
 
@@ -18,34 +25,50 @@ export interface CodeMirrorProps extends ReactCodeMirrorProps {
  *
  * It is also responsible for integrating any CodeMirror extensions.
  */
-const CodeMirrorProxy = forwardRef<ReactCodeMirrorRef, CodeMirrorProps>((props, ref) => {
+const CodeMirrorProxy = forwardRef<ReactCodeMirrorRef, CodeMirrorProps>(function CodeMirrorProxy(
+  props,
+  ref
+) {
   const {
-    value,
-    readOnly,
     basicSetup: basicSetupProp,
+    highlightLines,
     languageMode,
     onHighlightChange,
-    highlightLines,
+    readOnly,
+    value,
     ...codeMirrorProps
   } = props
-  const theme = useCodeMirrorTheme()
+
+  const themeCtx = useRootTheme()
+  const codeMirrorTheme = useCodeMirrorTheme()
   const [editorView, setEditorView] = useState<EditorView | undefined>(undefined)
 
+  // Resolve extensions
+  const themeExtension = useThemeExtension()
+  const fontSizeExtension = useFontSizeExtension({fontSize: 1})
   const languageExtension = useLanguageExtension(languageMode)
-
-  const extensions = useMemo(() => {
-    const baseExtensions = [
+  const highlightLineExtension = useMemo(
+    () =>
       highlightLine({
         onHighlightChange,
         readOnly,
+        theme: themeCtx,
       }),
+    [onHighlightChange, readOnly, themeCtx]
+  )
+
+  const extensions = useMemo(() => {
+    const baseExtensions = [
+      themeExtension,
+      fontSizeExtension,
+      highlightLineExtension,
       EditorView.lineWrapping,
     ]
     if (languageExtension) {
       return [...baseExtensions, languageExtension]
     }
     return baseExtensions
-  }, [onHighlightChange, languageExtension, readOnly])
+  }, [fontSizeExtension, highlightLineExtension, languageExtension, themeExtension])
 
   useEffect(() => {
     if (editorView) {
@@ -87,7 +110,7 @@ const CodeMirrorProxy = forwardRef<ReactCodeMirrorRef, CodeMirrorProps>((props, 
       value={value}
       ref={ref}
       extensions={extensions}
-      theme={theme}
+      theme={codeMirrorTheme}
       onCreateEditor={handleCreateEditor}
       initialState={initialState}
       basicSetup={basicSetup}

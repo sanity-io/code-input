@@ -2,9 +2,10 @@
 
 import {Extension, StateEffect, StateField} from '@codemirror/state'
 import {Decoration, EditorView, lineNumbers} from '@codemirror/view'
-import {hues} from '@sanity/color'
+import {ThemeContextValue, rgba} from '@sanity/ui'
 
 const highlightLineClass = 'cm-highlight-line'
+
 export const addLineHighlight = StateEffect.define<number>()
 export const removeLineHighlight = StateEffect.define<number>()
 
@@ -66,37 +67,45 @@ export const highlightState: {
 export interface HighlightLineConfig {
   onHighlightChange?: (lines: number[]) => void
   readOnly?: boolean
+  theme: ThemeContextValue
 }
 
-const highlightTheme = EditorView.baseTheme({
-  '.cm-lineNumbers': {
-    cursor: 'pointer',
-  },
-  '.cm-line.cm-line': {
-    position: 'relative',
-  },
-  // need set background with pseudoelement so it does not render over selection color
-  [`.${highlightLineClass}::before`]: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    zIndex: -3,
-    content: "''",
-    boxSizing: 'border-box',
-  },
-  [`&light .${highlightLineClass}::before`]: {
-    borderLeft: `2px solid ${hues.yellow[200].hex}`,
-    background: hues.yellow[50].hex,
-  },
-  [`&dark .${highlightLineClass}::before`]: {
-    borderLeft: `2px solid ${hues.yellow[200].hex}`,
-    background: hues.yellow[900].hex,
-  },
-})
+function createCodeMirrorTheme(options: {themeCtx: ThemeContextValue}) {
+  const {themeCtx} = options
+  const dark = {color: themeCtx.theme.color.dark[themeCtx.tone]}
+  const light = {color: themeCtx.theme.color.light[themeCtx.tone]}
+
+  return EditorView.baseTheme({
+    '.cm-lineNumbers': {
+      cursor: 'default',
+    },
+    '.cm-line.cm-line': {
+      position: 'relative',
+    },
+
+    // need set background with pseudoelement so it does not render over selection color
+    [`.${highlightLineClass}::before`]: {
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      zIndex: -3,
+      content: "''",
+      boxSizing: 'border-box',
+    },
+    [`&dark .${highlightLineClass}::before`]: {
+      background: rgba(dark.color.muted.caution.pressed.bg, 0.5),
+    },
+    [`&light .${highlightLineClass}::before`]: {
+      background: rgba(light.color.muted.caution.pressed.bg, 0.75),
+    },
+  })
+}
 
 export const highlightLine = (config: HighlightLineConfig): Extension => {
+  const highlightTheme = createCodeMirrorTheme({themeCtx: config.theme})
+
   return [
     lineHighlightField,
     config.readOnly
@@ -132,6 +141,7 @@ export const highlightLine = (config: HighlightLineConfig): Extension => {
     highlightTheme,
   ]
 }
+
 /**
  * Adds and removes highlights to the provided view using highlightLines
  * @param view
