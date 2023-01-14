@@ -1,26 +1,20 @@
-/* eslint-disable react/jsx-handler-names */
-
-import {Suspense, useCallback, useMemo} from 'react'
-import {
-  FieldMember,
-  InputProps,
-  MemberField,
-  ObjectInputProps,
-  ObjectMember,
-  RenderInputCallback,
-  set,
-  setIfMissing,
-  StringInputProps,
-  unset,
-} from 'sanity'
-import {Card, Select, Stack, ThemeColorSchemeKey} from '@sanity/ui'
+import {Suspense, useCallback} from 'react'
+import {MemberField, ObjectInputProps, RenderInputCallback, set, setIfMissing, unset} from 'sanity'
+import {Card, Stack} from '@sanity/ui'
 import styled from 'styled-components'
-import {CodeInputLanguage, CodeInputValue, CodeSchemaType} from './types'
-import {PATH_CODE} from './config'
+import {LanguageField} from './LanguageField'
 import {useCodeMirror} from './codemirror/useCodeMirror'
 import {useLanguageMode} from './codemirror/useLanguageMode'
+import {PATH_CODE} from './config'
+import {CodeInputValue, CodeSchemaType} from './types'
+import {useFieldMember} from './useFieldMember'
 
 export type {CodeInputLanguage, CodeInputValue} from './types'
+
+/**
+ * @public
+ */
+export interface CodeInputProps extends ObjectInputProps<CodeInputValue, CodeSchemaType> {}
 
 const EditorContainer = styled(Card)`
   position: relative;
@@ -33,14 +27,7 @@ const EditorContainer = styled(Card)`
   overflow-y: auto;
 `
 
-/**
- * @public
- */
-export type CodeInputProps = ObjectInputProps<CodeInputValue, CodeSchemaType> & {
-  /** @internal */
-  colorScheme?: ThemeColorSchemeKey
-}
-
+/** @public */
 export function CodeInput(props: CodeInputProps) {
   const {
     members,
@@ -122,10 +109,13 @@ export function CodeInput(props: CodeInputProps) {
     <Stack space={4}>
       {languageFieldMember && (
         <LanguageField
-          {...props}
           member={languageFieldMember}
           language={language}
           languages={languages}
+          renderField={renderField}
+          renderItem={renderItem}
+          renderInput={renderInput}
+          renderPreview={renderPreview}
         />
       )}
 
@@ -149,52 +139,5 @@ export function CodeInput(props: CodeInputProps) {
         />
       )}
     </Stack>
-  )
-}
-
-function LanguageField(
-  props: CodeInputProps & {member: FieldMember; languages: CodeInputLanguage[]; language: string}
-) {
-  const {member, languages, language, renderItem, renderField, renderPreview} = props
-  const renderLanguageInput = useCallback(
-    (inputProps: Omit<InputProps, 'renderDefault'>) => {
-      return (
-        <Select
-          {...(inputProps as StringInputProps)}
-          value={language}
-          onChange={(e) => {
-            const newValue = e.currentTarget.value
-            inputProps.onChange(newValue ? set(newValue) : unset())
-          }}
-        >
-          {languages.map((lang: {title: string; value: string}) => (
-            <option key={lang.value} value={lang.value}>
-              {lang.title}
-            </option>
-          ))}
-        </Select>
-      )
-    },
-    [languages, language]
-  )
-
-  return (
-    <MemberField
-      member={member}
-      renderItem={renderItem}
-      renderField={renderField}
-      renderInput={renderLanguageInput}
-      renderPreview={renderPreview}
-    />
-  )
-}
-
-function useFieldMember(members: ObjectMember[], fieldName: string) {
-  return useMemo(
-    () =>
-      members.find(
-        (member): member is FieldMember => member.kind === 'field' && member.name === fieldName
-      ),
-    [members, fieldName]
   )
 }
