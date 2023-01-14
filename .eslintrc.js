@@ -31,6 +31,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 1,
     'no-shadow': 'off',
     'react/display-name': 0,
+    'react/jsx-handler-names': 0,
     'react/jsx-no-bind': 0,
   },
   settings: {
