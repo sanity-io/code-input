@@ -1,13 +1,14 @@
 import {Suspense, useCallback} from 'react'
 import {MemberField, ObjectInputProps, RenderInputCallback, set, setIfMissing, unset} from 'sanity'
 import {Card, Stack} from '@sanity/ui'
-import styled from 'styled-components'
+import styled, {css} from 'styled-components'
 import {LanguageField} from './LanguageField'
 import {useCodeMirror} from './codemirror/useCodeMirror'
 import {useLanguageMode} from './codemirror/useLanguageMode'
 import {PATH_CODE} from './config'
 import {CodeInputValue, CodeSchemaType} from './types'
 import {useFieldMember} from './useFieldMember'
+import {focusRingBorderStyle, focusRingStyle} from './ui/focusRingStyle'
 
 export type {CodeInputLanguage, CodeInputValue} from './types'
 
@@ -16,16 +17,39 @@ export type {CodeInputLanguage, CodeInputValue} from './types'
  */
 export interface CodeInputProps extends ObjectInputProps<CodeInputValue, CodeSchemaType> {}
 
-const EditorContainer = styled(Card)`
-  position: relative;
-  box-sizing: border-box;
-  overflow: hidden;
-  z-index: 0;
+const EditorContainer = styled(Card)(({theme}) => {
+  const {focusRing, input} = theme.sanity
+  const base = theme.sanity.color.base
+  const color = theme.sanity.color.input
+  const border = {
+    color: color.default.enabled.border,
+    width: input.border.width,
+  }
 
-  resize: vertical;
-  height: 250px;
-  overflow-y: auto;
-`
+  return css`
+    --input-box-shadow: ${focusRingBorderStyle(border)};
+
+    box-shadow: var(--input-box-shadow);
+    height: 250px;
+    min-height: 80px;
+    overflow-y: auto;
+    position: relative;
+    resize: vertical;
+    z-index: 0;
+
+    & > .cm-theme {
+      height: 100%;
+    }
+
+    &:focus-within {
+      --input-box-shadow: ${focusRingStyle({
+        base,
+        border,
+        focusRing,
+      })};
+    }
+  `
+})
 
 /** @public */
 export function CodeInput(props: CodeInputProps) {
