@@ -1,4 +1,4 @@
-import {forwardRef, useContext, useEffect, useMemo, useState} from 'react'
+import {forwardRef, useCallback, useContext, useEffect, useMemo, useState} from 'react'
 import CodeMirror, {ReactCodeMirrorProps, ReactCodeMirrorRef} from '@uiw/react-codemirror'
 import {useCodeMirrorTheme} from './useCodeMirrorTheme'
 import {Extension} from '@codemirror/state'
@@ -22,7 +22,7 @@ const CodeMirrorProxy = forwardRef<ReactCodeMirrorRef, CodeMirrorProps>((props, 
   const {
     value,
     readOnly,
-    basicSetup,
+    basicSetup: basicSetupProp,
     languageMode,
     onHighlightChange,
     highlightLines,
@@ -69,6 +69,18 @@ const CodeMirrorProxy = forwardRef<ReactCodeMirrorRef, CodeMirrorProps>((props, 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const handleCreateEditor = useCallback((view: EditorView) => {
+    setEditorView(view)
+  }, [])
+
+  const basicSetup = useMemo(
+    () =>
+      basicSetupProp ?? {
+        highlightActiveLine: false,
+      },
+    [basicSetupProp]
+  )
+
   return (
     <CodeMirror
       {...codeMirrorProps}
@@ -76,15 +88,9 @@ const CodeMirrorProxy = forwardRef<ReactCodeMirrorRef, CodeMirrorProps>((props, 
       ref={ref}
       extensions={extensions}
       theme={theme}
-      onCreateEditor={(view: EditorView) => {
-        setEditorView(view)
-      }}
+      onCreateEditor={handleCreateEditor}
       initialState={initialState}
-      basicSetup={
-        basicSetup ?? {
-          highlightActiveLine: false,
-        }
-      }
+      basicSetup={basicSetup}
     />
   )
 })
