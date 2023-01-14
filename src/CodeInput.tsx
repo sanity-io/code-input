@@ -1,6 +1,6 @@
 import {Suspense, useCallback} from 'react'
 import {MemberField, ObjectInputProps, RenderInputCallback, set, setIfMissing, unset} from 'sanity'
-import {Card, Stack} from '@sanity/ui'
+import {Box, Card, Stack, Text} from '@sanity/ui'
 import styled, {css} from 'styled-components'
 import {LanguageField} from './LanguageField'
 import {useCodeMirror} from './codemirror/useCodeMirror'
@@ -99,9 +99,15 @@ export function CodeInput(props: CodeInputProps) {
   const renderCodeInput: RenderInputCallback = useCallback(
     (inputProps) => {
       return (
-        <EditorContainer radius={1} shadow={1} readOnly={readOnly}>
+        <EditorContainer border overflow="hidden" radius={1} sizing="border" readOnly={readOnly}>
           {CodeMirror && (
-            <Suspense fallback={<Card padding={2}>Loading code editor...</Card>}>
+            <Suspense
+              fallback={
+                <Box padding={3}>
+                  <Text>Loading code editor...</Text>
+                </Box>
+              }
+            >
               <CodeMirror
                 languageMode={languageMode}
                 onChange={handleCodeChange}
