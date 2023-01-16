@@ -1,6 +1,6 @@
 {
   "name": "@sanity/code-input",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "description": "Ace editor for editing code",
   "keywords": [
     "sanity",

@@ -5,6 +5,26 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0](https://github.com/sanity-io/code-input/compare/v3.0.1...v4.0.0) (2023-01-16)
+
+### ⚠ BREAKING CHANGES
+
+- api for configuring custom languages has changed. Consult the README for details.
+
+### Features
+
+- click line-number to highlight line ([8e5cf07](https://github.com/sanity-io/code-input/commit/8e5cf072bd70a8a6526daf55423ba040eef40d43))
+- replaced AceEditor with CodeMirror as code editor ([ef4fe48](https://github.com/sanity-io/code-input/commit/ef4fe48ceab4f713873b3aeebe0b611b070ff79f))
+
+### Bug Fixes
+
+- **deps:** applied npx @sanity/plugin-kit inject ([9ccfe69](https://github.com/sanity-io/code-input/commit/9ccfe69ae11bc48b6fdf22d1d823a82ced561a32))
+- implement sanity theming ([9566cd2](https://github.com/sanity-io/code-input/commit/9566cd2dc8d2adc5c312ee5dde0044001a401028))
+- improved highlighted line color ([c151e95](https://github.com/sanity-io/code-input/commit/c151e9591ffb4abf3f7bb6bb72f558d9a951737c))
+- refactored default language ([2111776](https://github.com/sanity-io/code-input/commit/2111776f91cda2a472b5d1bfaba36e2fa5f2a68e))
+- render focus ring ([5fc3cc1](https://github.com/sanity-io/code-input/commit/5fc3cc14b91c524026e2ae551faa5bc735150a2c))
+- wrap lines ([301640e](https://github.com/sanity-io/code-input/commit/301640e7a3614cc22dd34cdff71901521f7ea67a))
+
 ## [3.0.1](https://github.com/sanity-io/code-input/compare/v3.0.0...v3.0.1) (2022-12-06)
 
 ### Bug Fixes
