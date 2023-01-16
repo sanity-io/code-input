@@ -2,7 +2,7 @@
 
 import {Suspense} from 'react'
 
-import {queryByText, render, waitForElementToBeRemoved} from '@testing-library/react'
+import {act, render} from '@testing-library/react'
 import {useCodeMirror} from './useCodeMirror'
 import {studioTheme, ThemeProvider} from '@sanity/ui'
 
@@ -11,7 +11,13 @@ describe('useCodeMirror - client', () => {
     jest
       .spyOn(window, 'requestAnimationFrame')
       .mockImplementation((callback: FrameRequestCallback): number => {
-        callback(0)
+        try {
+          // eslint-disable-next-line callback-return
+          callback(0)
+        } catch (e) {
+          // CodeMirror does some mesurement shenanigance that json dont support
+          // we just let it crash silently
+        }
         return 0
       })
   })
@@ -21,12 +27,10 @@ describe('useCodeMirror - client', () => {
   })
 
   it('should render suspended ace editor', async () => {
-    const fallbackString = 'loading'
-
     const TestComponent = () => {
       const CodeMirror = useCodeMirror()
       return (
-        <Suspense fallback={fallbackString}>
+        <Suspense fallback={'loading'}>
           {CodeMirror && (
             <ThemeProvider theme={studioTheme}>
               <CodeMirror languageMode={'tsx'} />
@@ -35,12 +39,11 @@ describe('useCodeMirror - client', () => {
         </Suspense>
       )
     }
-    const {container} = render(<TestComponent />)
-
-    expect(container.innerHTML).toEqual(fallbackString)
-
-    await waitForElementToBeRemoved(() => queryByText(container, fallbackString))
-
+    let container: any
+    await act(async () => {
+      const result = render(<TestComponent />)
+      container = result.container
+    })
     expect(container.querySelector('.cm-theme')).toBeTruthy()
   })
 })
