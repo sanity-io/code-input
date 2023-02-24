@@ -15,6 +15,11 @@ const testType = defineType({
       name: 'code',
       title: 'Code',
     },
+    {
+      type: 'array',
+      name: 'content',
+      of: [{name: 'code', type: 'code', options: {withFilename: true}}],
+    },
   ],
 })
 
