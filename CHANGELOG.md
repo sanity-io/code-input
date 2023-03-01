@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.0](https://github.com/sanity-io/code-input/compare/v4.0.0...v4.1.0) (2023-03-01)
+
+### Features
+
+- richer preview component ([5b751e9](https://github.com/sanity-io/code-input/commit/5b751e92c2079b2e69f8f9f639cdb7cd98cfa990))
+
 ## [4.0.0](https://github.com/sanity-io/code-input/compare/v3.0.1...v4.0.0) (2023-01-16)
 
 ### ⚠ BREAKING CHANGES
