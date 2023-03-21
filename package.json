@@ -114,7 +114,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-is": "^18.2.0",
-    "rimraf": "^3.0.2",
+    "rimraf": "^4.0.0",
     "sanity": "^3.2.3",
     "sanity-extra": "^1.0.0",
     "sanity-testing-library": "^1.0.0",
