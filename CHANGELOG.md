@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.1](https://github.com/sanity-io/code-input/compare/v4.1.0...v4.1.1) (2023-05-10)
+
+### Bug Fixes
+
+- editor should no longer crash when highlightlines are unsorted ([e2f9d98](https://github.com/sanity-io/code-input/commit/e2f9d981997c2431fb8f6ab35ffbef359862ea80))
+
 ## [4.1.0](https://github.com/sanity-io/code-input/compare/v4.0.0...v4.1.0) (2023-03-01)
 
 ### Features
