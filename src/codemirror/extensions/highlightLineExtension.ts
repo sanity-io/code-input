@@ -47,9 +47,15 @@ export const lineHighlightField = StateField.define({
     const highlights = value
       .filter((line) => line <= lines) // one-indexed
       .map((line) => lineHighlightMark.range(state.doc.line(line).from))
-    return Decoration.none.update({
-      add: highlights,
-    })
+    highlights.sort((a, b) => a.from - b.from)
+    try {
+      return Decoration.none.update({
+        add: highlights,
+      })
+    } catch (e) {
+      console.error(e)
+      return Decoration.none
+    }
   },
   provide: (f) => EditorView.decorations.from(f),
 })
