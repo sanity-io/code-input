@@ -5,15 +5,12 @@ module.exports = {
   testEnvironment: 'node',
   testPathIgnorePatterns: ['.yalc', 'node_modules', '.idea', 'lib', '.parcel-cache'],
   globals: {
-    'ts-jest': {
-      babelConfig: true,
-    },
     crypto: {
       getRandomValues: (arr) => crypto.randomBytes(arr.length),
     },
   },
   transform: {
-    '^.+\\.(ts|tsx)?$': 'ts-jest',
+    '^.+\\.(ts|tsx)?$': ['ts-jest', {babelConfig: true}],
     '^.+\\.(mjs|js|jsx)$': 'babel-jest',
   },
   transformIgnorePatterns: ['node_modules/(?!(nanoid|uuid|get-random-values-esm))'],
