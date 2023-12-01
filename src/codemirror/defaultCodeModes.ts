@@ -27,14 +27,14 @@ export const defaultCodeModes: CodeMode[] = [
     name: 'typescript',
     loader: () =>
       import('@codemirror/lang-javascript').then(({javascript}) =>
-        javascript({jsx: false, typescript: true})
+        javascript({jsx: false, typescript: true}),
       ),
   },
   {
     name: 'tsx',
     loader: () =>
       import('@codemirror/lang-javascript').then(({javascript}) =>
-        javascript({jsx: true, typescript: true})
+        javascript({jsx: true, typescript: true}),
       ),
   },
   {name: 'php', loader: () => import('@codemirror/lang-php').then(({php}) => php())},
@@ -54,7 +54,7 @@ export const defaultCodeModes: CodeMode[] = [
     name: 'csharp',
     loader: () =>
       import('@codemirror/legacy-modes/mode/clike').then(({csharp}) =>
-        StreamLanguage.define(csharp)
+        StreamLanguage.define(csharp),
       ),
   },
   {
@@ -86,7 +86,7 @@ export const defaultCodeModes: CodeMode[] = [
     name: 'python',
     loader: () =>
       import('@codemirror/legacy-modes/mode/python').then(({python}) =>
-        StreamLanguage.define(python)
+        StreamLanguage.define(python),
       ),
   },
   {

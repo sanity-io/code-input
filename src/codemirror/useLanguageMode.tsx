@@ -29,7 +29,7 @@ function useLanguageAlternatives(type: CodeSchemaType) {
 
     if (!Array.isArray(languageAlternatives)) {
       throw new Error(
-        `'options.languageAlternatives' should be an array, got ${typeof languageAlternatives}`
+        `'options.languageAlternatives' should be an array, got ${typeof languageAlternatives}`,
       )
     }
 
@@ -41,7 +41,7 @@ function useLanguageAlternatives(type: CodeSchemaType) {
           `'options.languageAlternatives' lists a language with value "%s", which is an alias of "%s" - please replace the value to read "%s"`,
           val,
           alias,
-          alias
+          alias,
         )
 
         return acc.concat({title, value: alias, mode: mode})
