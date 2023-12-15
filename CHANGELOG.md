@@ -5,6 +5,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.2](https://github.com/sanity-io/code-input/compare/v4.1.1...v4.1.2) (2023-12-15)
+
+### Bug Fixes
+
+- **deps:** allow styled-components v6 as peer dependency ([#89](https://github.com/sanity-io/code-input/issues/89)) ([2ba3bf2](https://github.com/sanity-io/code-input/commit/2ba3bf2d8540e7e2415e08be229d030cf2b97d16))
+- **deps:** update codemirror ([#52](https://github.com/sanity-io/code-input/issues/52)) ([d883481](https://github.com/sanity-io/code-input/commit/d883481c0bde01b8b27af43caac3263abcb125a3))
+- **deps:** update codemirror ([#65](https://github.com/sanity-io/code-input/issues/65)) ([b866640](https://github.com/sanity-io/code-input/commit/b8666405755e582842da7995ed9929e8fc3e3571))
+- **deps:** update codemirror ([#66](https://github.com/sanity-io/code-input/issues/66)) ([5d1605e](https://github.com/sanity-io/code-input/commit/5d1605e1545ad3b33a951fb471f4f70b8f46427d))
+- **deps:** update dependencies (non-major) ([#32](https://github.com/sanity-io/code-input/issues/32)) ([5f2ab52](https://github.com/sanity-io/code-input/commit/5f2ab52e467aa5b7af134b49f4023b6db4b0d1a5))
+- **deps:** update dependencies (non-major) to v4.20.2 ([#67](https://github.com/sanity-io/code-input/issues/67)) ([ec2dcef](https://github.com/sanity-io/code-input/commit/ec2dcef85c506fd911cea5b05274e1c78dfc6fde))
+- update package description (codemirror, not ace) ([3b769e2](https://github.com/sanity-io/code-input/commit/3b769e26b3b57cc778dadb540f9007ee97a29c30))
+
 ## [4.1.1](https://github.com/sanity-io/code-input/compare/v4.1.0...v4.1.1) (2023-05-10)
 
 ### Bug Fixes
