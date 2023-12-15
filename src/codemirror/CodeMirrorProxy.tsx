@@ -25,98 +25,97 @@ export interface CodeMirrorProps extends ReactCodeMirrorProps {
  *
  * It is also responsible for integrating any CodeMirror extensions.
  */
-const CodeMirrorProxy = forwardRef<ReactCodeMirrorRef, CodeMirrorProps>(function CodeMirrorProxy(
-  props,
-  ref
-) {
-  const {
-    basicSetup: basicSetupProp,
-    highlightLines,
-    languageMode,
-    onHighlightChange,
-    readOnly,
-    value,
-    ...codeMirrorProps
-  } = props
+const CodeMirrorProxy = forwardRef<ReactCodeMirrorRef, CodeMirrorProps>(
+  function CodeMirrorProxy(props, ref) {
+    const {
+      basicSetup: basicSetupProp,
+      highlightLines,
+      languageMode,
+      onHighlightChange,
+      readOnly,
+      value,
+      ...codeMirrorProps
+    } = props
 
-  const themeCtx = useRootTheme()
-  const codeMirrorTheme = useCodeMirrorTheme()
-  const [editorView, setEditorView] = useState<EditorView | undefined>(undefined)
+    const themeCtx = useRootTheme()
+    const codeMirrorTheme = useCodeMirrorTheme()
+    const [editorView, setEditorView] = useState<EditorView | undefined>(undefined)
 
-  // Resolve extensions
-  const themeExtension = useThemeExtension()
-  const fontSizeExtension = useFontSizeExtension({fontSize: 1})
-  const languageExtension = useLanguageExtension(languageMode)
-  const highlightLineExtension = useMemo(
-    () =>
-      highlightLine({
-        onHighlightChange,
-        readOnly,
-        theme: themeCtx,
-      }),
-    [onHighlightChange, readOnly, themeCtx]
-  )
+    // Resolve extensions
+    const themeExtension = useThemeExtension()
+    const fontSizeExtension = useFontSizeExtension({fontSize: 1})
+    const languageExtension = useLanguageExtension(languageMode)
+    const highlightLineExtension = useMemo(
+      () =>
+        highlightLine({
+          onHighlightChange,
+          readOnly,
+          theme: themeCtx,
+        }),
+      [onHighlightChange, readOnly, themeCtx],
+    )
 
-  const extensions = useMemo(() => {
-    const baseExtensions = [
-      themeExtension,
-      fontSizeExtension,
-      highlightLineExtension,
-      EditorView.lineWrapping,
-    ]
-    if (languageExtension) {
-      return [...baseExtensions, languageExtension]
-    }
-    return baseExtensions
-  }, [fontSizeExtension, highlightLineExtension, languageExtension, themeExtension])
+    const extensions = useMemo(() => {
+      const baseExtensions = [
+        themeExtension,
+        fontSizeExtension,
+        highlightLineExtension,
+        EditorView.lineWrapping,
+      ]
+      if (languageExtension) {
+        return [...baseExtensions, languageExtension]
+      }
+      return baseExtensions
+    }, [fontSizeExtension, highlightLineExtension, languageExtension, themeExtension])
 
-  useEffect(() => {
-    if (editorView) {
-      setHighlightedLines(editorView, highlightLines ?? [])
-    }
-  }, [editorView, highlightLines, value])
+    useEffect(() => {
+      if (editorView) {
+        setHighlightedLines(editorView, highlightLines ?? [])
+      }
+    }, [editorView, highlightLines, value])
 
-  const initialState = useMemo(() => {
-    return {
-      json: {
-        doc: value ?? '',
-        selection: {
-          main: 0,
-          ranges: [{anchor: 0, head: 0}],
+    const initialState = useMemo(() => {
+      return {
+        json: {
+          doc: value ?? '',
+          selection: {
+            main: 0,
+            ranges: [{anchor: 0, head: 0}],
+          },
+          highlight: highlightLines ?? [],
         },
-        highlight: highlightLines ?? [],
-      },
-      fields: highlightState,
-    }
-    // only need to calculate this on initial render
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+        fields: highlightState,
+      }
+      // only need to calculate this on initial render
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
-  const handleCreateEditor = useCallback((view: EditorView) => {
-    setEditorView(view)
-  }, [])
+    const handleCreateEditor = useCallback((view: EditorView) => {
+      setEditorView(view)
+    }, [])
 
-  const basicSetup = useMemo(
-    () =>
-      basicSetupProp ?? {
-        highlightActiveLine: false,
-      },
-    [basicSetupProp]
-  )
+    const basicSetup = useMemo(
+      () =>
+        basicSetupProp ?? {
+          highlightActiveLine: false,
+        },
+      [basicSetupProp],
+    )
 
-  return (
-    <CodeMirror
-      {...codeMirrorProps}
-      value={value}
-      ref={ref}
-      extensions={extensions}
-      theme={codeMirrorTheme}
-      onCreateEditor={handleCreateEditor}
-      initialState={initialState}
-      basicSetup={basicSetup}
-    />
-  )
-})
+    return (
+      <CodeMirror
+        {...codeMirrorProps}
+        value={value}
+        ref={ref}
+        extensions={extensions}
+        theme={codeMirrorTheme}
+        onCreateEditor={handleCreateEditor}
+        initialState={initialState}
+        basicSetup={basicSetup}
+      />
+    )
+  },
+)
 
 function useLanguageExtension(mode?: string) {
   const codeConfig = useContext(CodeInputConfigContext)
@@ -130,7 +129,7 @@ function useLanguageExtension(mode?: string) {
     const codeMode = modes.find((m) => m.name === mode)
     if (!codeMode?.loader) {
       console.warn(
-        `Found no codeMode for language mode ${mode}, syntax highlighting will be disabled.`
+        `Found no codeMode for language mode ${mode}, syntax highlighting will be disabled.`,
       )
     }
     let active = true

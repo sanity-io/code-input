@@ -17,7 +17,7 @@ export function LanguageInput(props: LanguageInputProps) {
       const newValue = e.currentTarget.value
       onChange(newValue ? set(newValue) : unset())
     },
-    [onChange]
+    [onChange],
   )
 
   return (

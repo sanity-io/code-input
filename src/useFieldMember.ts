@@ -4,13 +4,13 @@ import {FieldMember, ObjectMember} from 'sanity'
 /** @internal */
 export function useFieldMember(
   members: ObjectMember[],
-  fieldName: string
+  fieldName: string,
 ): FieldMember | undefined {
   return useMemo(
     () =>
       members.find(
-        (member): member is FieldMember => member.kind === 'field' && member.name === fieldName
+        (member): member is FieldMember => member.kind === 'field' && member.name === fieldName,
       ),
-    [members, fieldName]
+    [members, fieldName],
   )
 }

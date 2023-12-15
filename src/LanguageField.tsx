@@ -4,7 +4,7 @@ import {CodeInputLanguage} from './types'
 import {LanguageInput} from './LanguageInput'
 
 export function LanguageField(
-  props: MemberFieldProps & {member: FieldMember; language: string; languages: CodeInputLanguage[]}
+  props: MemberFieldProps & {member: FieldMember; language: string; languages: CodeInputLanguage[]},
 ) {
   const {member, languages, language, renderItem, renderField, renderPreview} = props
 
@@ -18,7 +18,7 @@ export function LanguageField(
         />
       )
     },
-    [languages, language]
+    [languages, language],
   )
 
   return (

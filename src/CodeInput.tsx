@@ -77,7 +77,7 @@ export function CodeInput(props: CodeInputProps) {
 
   const onHighlightChange = useCallback(
     (lines: number[]) => onChange(set(lines, ['highlightedLines'])),
-    [onChange]
+    [onChange],
   )
 
   const handleCodeChange = useCallback(
@@ -90,7 +90,7 @@ export function CodeInput(props: CodeInputProps) {
         code ? set(code, path) : unset(path),
       ])
     },
-    [onChange, type]
+    [onChange, type],
   )
   const {languages, language, languageMode} = useLanguageMode(props.schemaType, props.value)
 
@@ -132,7 +132,7 @@ export function CodeInput(props: CodeInputProps) {
       elementProps.onBlur,
       readOnly,
       value,
-    ]
+    ],
   )
 
   return (
