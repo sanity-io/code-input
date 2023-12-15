@@ -1,7 +1,7 @@
 {
   "name": "@sanity/code-input",
   "version": "4.1.1",
-  "description": "Ace editor for editing code",
+  "description": "Sanity input component for code, powered by CodeMirror",
   "keywords": [
     "sanity",
     "cms",
