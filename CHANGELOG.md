@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.3](https://github.com/sanity-io/code-input/compare/v4.1.2...v4.1.3) (2024-02-21)
+
+### Bug Fixes
+
+- update dependencies ([#99](https://github.com/sanity-io/code-input/issues/99)) ([ab8634d](https://github.com/sanity-io/code-input/commit/ab8634d516b06d526528690e3e3332bad2b9d359))
+
 ## [4.1.2](https://github.com/sanity-io/code-input/compare/v4.1.1...v4.1.2) (2023-12-15)
 
 ### Bug Fixes
