@@ -22,18 +22,22 @@
   },
   "license": "MIT",
   "author": "Sanity.io <hello@sanity.io>",
+  "type": "module",
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
       "source": "./src/index.ts",
-      "import": "./lib/index.esm.js",
-      "require": "./lib/index.js",
-      "default": "./lib/index.esm.js"
+      "require": "./lib/index.cjs",
+      "node": {
+        "import": "./lib/index.cjs.js"
+      },
+      "import": "./lib/index.js",
+      "default": "./lib/index.js"
     },
     "./package.json": "./package.json"
   },
-  "main": "./lib/index.js",
-  "module": "./lib/index.esm.js",
+  "main": "./lib/index.cjs",
+  "module": "./lib/index.js",
   "source": "./src/index.ts",
   "types": "./lib/index.d.ts",
   "files": [
@@ -86,7 +90,7 @@
     "@commitlint/config-conventional": "^18.4.3",
     "@sanity/icons": "^2.8.0",
     "@sanity/pkg-utils": "^3.3.5",
-    "@sanity/plugin-kit": "^3.1.2",
+    "@sanity/plugin-kit": "^3.1.10",
     "@sanity/semantic-release-preset": "^4.1.6",
     "@sanity/ui-workshop": "^1.2.0",
     "@sanity/ui-workshop-plugin-sanity": "^1.0.0",
