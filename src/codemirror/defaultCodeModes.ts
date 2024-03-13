@@ -11,7 +11,7 @@ export const defaultCodeModes: CodeMode[] = [
   {
     name: 'groq',
     loader: () =>
-      import('@codemirror/lang-javascript').then(({javascript}) => javascript({jsx: false})),
+      import('@codemirror/lang-javascript').then(({javascriptLanguage}) => javascriptLanguage),
   },
   {
     name: 'javascript',
