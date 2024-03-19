@@ -89,7 +89,7 @@
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",
     "@sanity/icons": "^2.8.0",
-    "@sanity/pkg-utils": "^3.3.5",
+    "@sanity/pkg-utils": "^4.4.4",
     "@sanity/plugin-kit": "^3.1.10",
     "@sanity/semantic-release-preset": "^4.1.6",
     "@sanity/ui-workshop": "^1.2.0",
