@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.4](https://github.com/sanity-io/code-input/compare/v4.1.3...v4.1.4) (2024-04-09)
+
+### Bug Fixes
+
+- remove incorrect autocomplete from GROQ ([#103](https://github.com/sanity-io/code-input/issues/103)) ([1f45acb](https://github.com/sanity-io/code-input/commit/1f45acb709018d273b105f870fdf5ae323d0cd38))
+
 ## [4.1.3](https://github.com/sanity-io/code-input/compare/v4.1.2...v4.1.3) (2024-02-21)
 
 ### Bug Fixes
