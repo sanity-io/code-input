@@ -118,7 +118,7 @@
     "react-dom": "^18.2.0",
     "react-is": "^18.2.0",
     "rimraf": "^5.0.5",
-    "sanity": "^3.21.3",
+    "sanity": "^3.35.0",
     "sanity-extra": "^1.0.0",
     "sanity-testing-library": "^1.0.0",
     "semantic-release": "^22.0.0",
