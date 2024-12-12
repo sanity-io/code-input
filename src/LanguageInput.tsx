@@ -1,6 +1,7 @@
-import {ChangeEvent, useCallback} from 'react'
-import {StringInputProps, set, unset} from 'sanity'
 import {Select} from '@sanity/ui'
+import {ChangeEvent, useCallback} from 'react'
+import {set, StringInputProps, unset} from 'sanity'
+
 import {CodeInputLanguage} from './types'
 
 export interface LanguageInputProps extends StringInputProps {

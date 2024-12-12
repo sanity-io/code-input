@@ -1,8 +1,11 @@
 /* eslint-disable no-param-reassign */
 
-import {Extension, StateEffect, StateField} from '@codemirror/state'
-import {Decoration, EditorView, lineNumbers} from '@codemirror/view'
-import {ThemeContextValue, rgba} from '@sanity/ui'
+import {type Extension, StateEffect, StateField} from '@codemirror/state'
+import {Decoration, type DecorationSet, EditorView, lineNumbers} from '@codemirror/view'
+import type {ThemeContextValue} from '@sanity/ui'
+import {rgba} from '@sanity/ui/theme'
+
+import {getBackwardsCompatibleTone} from './backwardsCompatibleTone'
 
 const highlightLineClass = 'cm-highlight-line'
 
@@ -65,7 +68,7 @@ const lineHighlightMark = Decoration.line({
 })
 
 export const highlightState: {
-  [prop: string]: StateField<any>
+  [prop: string]: StateField<DecorationSet>
 } = {
   highlight: lineHighlightField,
 }
@@ -78,8 +81,14 @@ export interface HighlightLineConfig {
 
 function createCodeMirrorTheme(options: {themeCtx: ThemeContextValue}) {
   const {themeCtx} = options
-  const dark = {color: themeCtx.theme.color.dark[themeCtx.tone]}
-  const light = {color: themeCtx.theme.color.light[themeCtx.tone]}
+
+  // `@sanity/ui@v2.9` introduced two new tones; "neutral" and "suggest",
+  // which maps to "default" and "primary" respectively in the old theme.
+  // The below ensures support with both new and old versions of `@sanity/ui`
+  const fallbackTone = getBackwardsCompatibleTone(themeCtx)
+
+  const dark = {color: themeCtx.theme.color.dark[fallbackTone]}
+  const light = {color: themeCtx.theme.color.light[fallbackTone]}
 
   return EditorView.baseTheme({
     '.cm-lineNumbers': {

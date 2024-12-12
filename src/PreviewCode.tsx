@@ -1,10 +1,11 @@
+import {Box, Card, Flex, Label, Text} from '@sanity/ui'
 import {Suspense} from 'react'
-import styled from 'styled-components'
-import {Label, Box, Card, Flex, Text} from '@sanity/ui'
-import {CodeInputValue, CodeSchemaType} from './types'
 import {PreviewProps} from 'sanity'
+import styled from 'styled-components'
+
 import {useCodeMirror} from './codemirror/useCodeMirror'
 import {useLanguageMode} from './codemirror/useLanguageMode'
+import {CodeInputValue, CodeSchemaType} from './types'
 
 const PreviewContainer = styled(Box)`
   position: relative;
@@ -20,7 +21,7 @@ export interface PreviewCodeProps extends PreviewProps {
 /**
  * @public
  */
-export default function PreviewCode(props: PreviewCodeProps) {
+export function PreviewCode(props: PreviewCodeProps) {
   const {selection, schemaType: type} = props
   const {languageMode} = useLanguageMode(type as CodeSchemaType, props.selection)
 

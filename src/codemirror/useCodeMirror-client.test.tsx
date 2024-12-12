@@ -1,10 +1,10 @@
 /** @jest-environment jsdom */
 
+import {studioTheme, ThemeProvider} from '@sanity/ui'
+import {act, render} from '@testing-library/react'
 import {Suspense} from 'react'
 
-import {act, render} from '@testing-library/react'
 import {useCodeMirror} from './useCodeMirror'
-import {studioTheme, ThemeProvider} from '@sanity/ui'
 
 describe('useCodeMirror - client', () => {
   beforeEach(() => {

@@ -1,7 +1,8 @@
 import {useCallback} from 'react'
 import {FieldMember, InputProps, MemberField, MemberFieldProps, StringInputProps} from 'sanity'
-import {CodeInputLanguage} from './types'
+
 import {LanguageInput} from './LanguageInput'
+import {CodeInputLanguage} from './types'
 
 export function LanguageField(
   props: MemberFieldProps & {member: FieldMember; language: string; languages: CodeInputLanguage[]},
