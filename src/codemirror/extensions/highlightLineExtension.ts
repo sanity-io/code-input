@@ -82,9 +82,6 @@ export interface HighlightLineConfig {
 function createCodeMirrorTheme(options: {themeCtx: ThemeContextValue}) {
   const {themeCtx} = options
 
-  // `@sanity/ui@v2.9` introduced two new tones; "neutral" and "suggest",
-  // which maps to "default" and "primary" respectively in the old theme.
-  // The below ensures support with both new and old versions of `@sanity/ui`
   const fallbackTone = getBackwardsCompatibleTone(themeCtx)
 
   const dark = {color: themeCtx.theme.color.dark[fallbackTone]}

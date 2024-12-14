@@ -1,5 +1,6 @@
 import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
+
 import {codeInput} from './src/index'
 
 export default defineConfig({
@@ -7,8 +8,7 @@ export default defineConfig({
   dataset: 'test',
   plugins: [
     structureTool({
-      structure: (S) =>
-        S.document().id('editor').documentId('code-input-test').schemaType('codeTest'),
+      structure: (S) => S.documentTypeList('codeTest'),
     }),
     codeInput(),
   ],
