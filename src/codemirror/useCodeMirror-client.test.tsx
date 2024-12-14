@@ -7,8 +7,10 @@ import {Suspense} from 'react'
 import {useCodeMirror} from './useCodeMirror'
 
 describe('useCodeMirror - client', () => {
+  let rafMock: jest.SpyInstance<number, [FrameRequestCallback]>
+
   beforeEach(() => {
-    jest
+    rafMock = jest
       .spyOn(window, 'requestAnimationFrame')
       .mockImplementation((callback: FrameRequestCallback): number => {
         try {
@@ -23,10 +25,10 @@ describe('useCodeMirror - client', () => {
   })
 
   afterEach(() => {
-    ;(window.requestAnimationFrame as any).mockRestore()
+    rafMock.mockRestore()
   })
 
-  it('should render suspended ace editor', async () => {
+  it('should render suspended codemirror editor', async () => {
     const TestComponent = () => {
       const CodeMirror = useCodeMirror()
       return (
@@ -39,11 +41,12 @@ describe('useCodeMirror - client', () => {
         </Suspense>
       )
     }
-    let container: any
+    let container: HTMLElement | undefined
     await act(async () => {
       const result = render(<TestComponent />)
       container = result.container
     })
-    expect(container.querySelector('.cm-theme')).toBeTruthy()
+    expect(container).toBeTruthy()
+    expect(container!.querySelector('.cm-theme')).toBeTruthy()
   })
 })
