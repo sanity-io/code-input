@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.1](https://github.com/sanity-io/code-input/compare/v5.1.0...v5.1.1) (2024-12-14)
+
+### Bug Fixes
+
+- **deps:** upgrade `@sanity/icons` to v3 ([2870c01](https://github.com/sanity-io/code-input/commit/2870c01eae2055c1658166d4c3effff9ba7daca2))
+
 ## [5.1.0](https://github.com/sanity-io/code-input/compare/v5.0.0...v5.1.0) (2024-12-14)
 
 ### Features
