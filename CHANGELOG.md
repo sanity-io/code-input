@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0](https://github.com/sanity-io/code-input/compare/v5.0.0...v5.1.0) (2024-12-14)
+
+### Features
+
+- support react 19, upgrade build tooling ([#111](https://github.com/sanity-io/code-input/issues/111)) ([d9d2826](https://github.com/sanity-io/code-input/commit/d9d2826f7eec60e8e3439cb22b938fc2f2d318e8))
+
 ## [5.0.0](https://github.com/sanity-io/code-input/compare/v4.1.4...v5.0.0) (2024-11-28)
 
 ### ⚠ BREAKING CHANGES
