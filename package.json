@@ -132,5 +132,8 @@
     "verifyPackage": {
       "babelConfig": false
     }
+  },
+  "overrides": {
+    "conventional-changelog-conventionalcommits": ">= 8.0.0"
   }
 }
