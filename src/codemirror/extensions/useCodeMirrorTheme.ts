@@ -1,8 +1,9 @@
-import {rgba, useTheme} from '@sanity/ui'
-import {useMemo} from 'react'
-import {createTheme} from '@uiw/codemirror-themes'
+import type {Extension} from '@codemirror/state'
 import {tags as t} from '@lezer/highlight'
-import {Extension} from '@codemirror/state'
+import {useTheme} from '@sanity/ui'
+import {rgba} from '@sanity/ui/theme'
+import {createTheme} from '@uiw/codemirror-themes'
+import {useMemo} from 'react'
 
 export function useCodeMirrorTheme(): Extension {
   const theme = useTheme()

@@ -1,14 +1,15 @@
+import {Box, Card, Stack, Text} from '@sanity/ui'
 import {Suspense, useCallback} from 'react'
 import {MemberField, ObjectInputProps, RenderInputCallback, set, setIfMissing, unset} from 'sanity'
-import {Box, Card, Stack, Text} from '@sanity/ui'
 import styled, {css} from 'styled-components'
-import {LanguageField} from './LanguageField'
+
 import {useCodeMirror} from './codemirror/useCodeMirror'
 import {useLanguageMode} from './codemirror/useLanguageMode'
 import {PATH_CODE} from './config'
+import {LanguageField} from './LanguageField'
 import {CodeInputValue, CodeSchemaType} from './types'
-import {useFieldMember} from './useFieldMember'
 import {focusRingBorderStyle, focusRingStyle} from './ui/focusRingStyle'
+import {useFieldMember} from './useFieldMember'
 
 export type {CodeInputLanguage, CodeInputValue} from './types'
 

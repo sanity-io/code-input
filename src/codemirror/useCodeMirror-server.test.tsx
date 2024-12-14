@@ -1,4 +1,5 @@
 import {renderToString} from 'react-dom/server'
+
 import {useCodeMirror} from './useCodeMirror'
 
 describe('useCodeMirror - server', () => {

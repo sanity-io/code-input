@@ -1,14 +1,18 @@
-import {Extension} from '@codemirror/state'
+import type {Extension} from '@codemirror/state'
 import {EditorView} from '@codemirror/view'
-import {rgba, useRootTheme} from '@sanity/ui'
+import {useRootTheme} from '@sanity/ui'
+import {rgba} from '@sanity/ui/theme'
 import {useMemo} from 'react'
+
+import {getBackwardsCompatibleTone} from './backwardsCompatibleTone'
 
 export function useThemeExtension(): Extension {
   const themeCtx = useRootTheme()
 
   return useMemo(() => {
-    const dark = {color: themeCtx.theme.color.dark[themeCtx.tone]}
-    const light = {color: themeCtx.theme.color.light[themeCtx.tone]}
+    const fallbackTone = getBackwardsCompatibleTone(themeCtx)
+    const dark = {color: themeCtx.theme.color.dark[fallbackTone]}
+    const light = {color: themeCtx.theme.color.light[fallbackTone]}
 
     return EditorView.baseTheme({
       '&.cm-editor': {

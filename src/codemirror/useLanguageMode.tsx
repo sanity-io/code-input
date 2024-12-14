@@ -1,10 +1,18 @@
-import {LANGUAGE_ALIASES, SUPPORTED_LANGUAGES} from '../config'
-import {CodeInputLanguage, CodeInputValue, CodeSchemaType} from '../types'
 import {useMemo} from 'react'
+
+import {LANGUAGE_ALIASES, SUPPORTED_LANGUAGES} from '../config'
+import type {CodeInputLanguage, CodeInputValue, CodeSchemaType} from '../types'
 
 export const defaultLanguageMode = 'text'
 
-export function useLanguageMode(schemaType: CodeSchemaType, value?: CodeInputValue) {
+export function useLanguageMode(
+  schemaType: CodeSchemaType,
+  value?: CodeInputValue,
+): {
+  language: string
+  languageMode: string
+  languages: CodeInputLanguage[]
+} {
   const languages = useLanguageAlternatives(schemaType)
   const fixedLanguage = schemaType.options?.language
   const language = value?.language ?? fixedLanguage ?? defaultLanguageMode

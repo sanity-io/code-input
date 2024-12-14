@@ -1,7 +1,9 @@
+import type {Extension} from '@codemirror/state'
+import {EditorView} from '@codemirror/view'
+import {useRootTheme} from '@sanity/ui'
+import CodeMirror, {type ReactCodeMirrorProps, type ReactCodeMirrorRef} from '@uiw/react-codemirror'
 import {forwardRef, useCallback, useContext, useEffect, useMemo, useState} from 'react'
-import CodeMirror, {ReactCodeMirrorProps, ReactCodeMirrorRef} from '@uiw/react-codemirror'
-import {useCodeMirrorTheme} from './extensions/useCodeMirrorTheme'
-import {Extension} from '@codemirror/state'
+
 import {CodeInputConfigContext} from './CodeModeContext'
 import {defaultCodeModes} from './defaultCodeModes'
 import {
@@ -9,10 +11,9 @@ import {
   highlightState,
   setHighlightedLines,
 } from './extensions/highlightLineExtension'
-import {EditorView} from '@codemirror/view'
-import {useRootTheme} from '@sanity/ui'
-import {useFontSizeExtension} from './extensions/useFontSize'
 import {useThemeExtension} from './extensions/theme'
+import {useCodeMirrorTheme} from './extensions/useCodeMirrorTheme'
+import {useFontSizeExtension} from './extensions/useFontSize'
 
 export interface CodeMirrorProps extends ReactCodeMirrorProps {
   highlightLines?: number[]

@@ -1,10 +1,7 @@
-import {codeSchema, codeTypeName, CodeDefinition} from './schema'
-import PreviewCode, {PreviewCodeProps} from './PreviewCode'
-export {type CodeInputProps, type CodeInput} from './CodeInput'
-
-export type {CodeInputLanguage, CodeInputValue, CodeSchemaType, CodeOptions} from './types'
-
-export {PreviewCode, type PreviewCodeProps}
+import {CodeDefinition, codeSchema, codeTypeName} from './schema'
+export {type CodeInput, type CodeInputProps} from './CodeInput'
+export {PreviewCode, type PreviewCodeProps} from './PreviewCode'
+export type {CodeInputLanguage, CodeInputValue, CodeOptions, CodeSchemaType} from './types'
 export {codeSchema, codeTypeName}
 export type {CodeDefinition}
 
