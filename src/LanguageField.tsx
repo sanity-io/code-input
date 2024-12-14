@@ -1,8 +1,14 @@
 import {useCallback} from 'react'
-import {FieldMember, InputProps, MemberField, MemberFieldProps, StringInputProps} from 'sanity'
+import {
+  FieldMember,
+  type InputProps,
+  MemberField,
+  type MemberFieldProps,
+  type PrimitiveInputElementProps,
+} from 'sanity'
 
 import {LanguageInput} from './LanguageInput'
-import {CodeInputLanguage} from './types'
+import type {CodeInputLanguage} from './types'
 
 export function LanguageField(
   props: MemberFieldProps & {member: FieldMember; language: string; languages: CodeInputLanguage[]},
@@ -10,10 +16,11 @@ export function LanguageField(
   const {member, languages, language, renderItem, renderField, renderPreview} = props
 
   const renderInput = useCallback(
-    (inputProps: Omit<InputProps, 'renderDefault'>) => {
+    ({elementProps, onChange}: Omit<InputProps, 'renderDefault'>) => {
       return (
         <LanguageInput
-          {...(inputProps as StringInputProps)}
+          onChange={onChange}
+          elementProps={elementProps as PrimitiveInputElementProps}
           language={language}
           languages={languages}
         />
