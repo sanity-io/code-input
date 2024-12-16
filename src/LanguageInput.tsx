@@ -1,17 +1,19 @@
 import {Select} from '@sanity/ui'
-import {ChangeEvent, useCallback} from 'react'
-import {set, StringInputProps, unset} from 'sanity'
+import {type ChangeEvent, useCallback} from 'react'
+import {set, type StringInputProps, unset} from 'sanity'
 
 import {CodeInputLanguage} from './types'
 
-export interface LanguageInputProps extends StringInputProps {
+export interface LanguageInputProps {
   language: string
   languages: CodeInputLanguage[]
+  onChange: StringInputProps['onChange']
+  elementProps: StringInputProps['elementProps']
 }
 
 /** @internal */
 export function LanguageInput(props: LanguageInputProps) {
-  const {language, languages, onChange} = props
+  const {language, languages, onChange, elementProps} = props
 
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
@@ -22,7 +24,7 @@ export function LanguageInput(props: LanguageInputProps) {
   )
 
   return (
-    <Select {...props} value={language} onChange={handleChange}>
+    <Select {...elementProps} value={language} onChange={handleChange}>
       {languages.map((lang: {title: string; value: string}) => (
         <option key={lang.value} value={lang.value}>
           {lang.title}
