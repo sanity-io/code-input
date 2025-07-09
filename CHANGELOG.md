@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.3](https://github.com/sanity-io/code-input/compare/v5.1.2...v5.1.3) (2025-07-09)
+
+### Bug Fixes
+
+- **deps:** allow studio v4 in peer dep ranges ([#114](https://github.com/sanity-io/code-input/issues/114)) ([0efe4e7](https://github.com/sanity-io/code-input/commit/0efe4e7c6212cbbc1bf09c52fcb0e6b0e9afa61b))
+
 ## [5.1.2](https://github.com/sanity-io/code-input/compare/v5.1.1...v5.1.2) (2024-12-16)
 
 ### Bug Fixes
