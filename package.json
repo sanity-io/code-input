@@ -121,7 +121,7 @@
   "peerDependencies": {
     "react": "^18 || >=19.0.0-0",
     "react-dom": "^18 || >=19.0.0-0",
-    "sanity": "^3",
+    "sanity": "^3 || ^4.0.0-0",
     "styled-components": "^5.2 || ^6"
   },
   "engines": {
