@@ -21,6 +21,7 @@ export const SUPPORTED_LANGUAGES: CodeInputLanguage[] = [
   {title: 'SASS', value: 'sass'},
   {title: 'SCSS', value: 'scss'},
   {title: 'sh', value: 'sh'},
+  {title: 'SQL', value: 'sql'},
   {title: 'TSX', value: 'tsx'},
   {title: 'TypeScript', value: 'typescript'},
   {title: 'XML', value: 'xml'},
