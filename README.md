@@ -1,6 +1,5 @@
 # @sanity/code-input
 
-> This is a **Sanity Studio v3** plugin.
 > For the v2 version, please refer to the [v2-branch](https://github.com/sanity-io/sanity/tree/next/packages/%40sanity/code-input).
 
 ## What is it?
