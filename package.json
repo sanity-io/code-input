@@ -75,7 +75,7 @@
     "@lezer/highlight": "^1.2.1",
     "@sanity/icons": "^3.5.2",
     "@sanity/incompatible-plugin": "^1.0.4",
-    "@sanity/ui": "^2.10.9",
+    "@sanity/ui": "^3.0.5",
     "@uiw/codemirror-themes": "^4.23.6",
     "@uiw/react-codemirror": "^4.23.6"
   },
