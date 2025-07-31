@@ -5,6 +5,16 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0](https://github.com/sanity-io/code-input/compare/v5.1.3...v5.2.0) (2025-07-31)
+
+### Features
+
+- add sql to supported languages ([#113](https://github.com/sanity-io/code-input/issues/113)) ([f2c1a37](https://github.com/sanity-io/code-input/commit/f2c1a37abaca56577ef9548b9e9a8309385c85ed))
+
+### Bug Fixes
+
+- **deps:** Update dependency @sanity/ui to v3 ([#115](https://github.com/sanity-io/code-input/issues/115)) ([ad42a69](https://github.com/sanity-io/code-input/commit/ad42a69dde15b22c619be5f5c5a0b6f08591cb75))
+
 ## [5.1.3](https://github.com/sanity-io/code-input/compare/v5.1.2...v5.1.3) (2025-07-09)
 
 ### Bug Fixes
