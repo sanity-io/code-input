@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.1](https://github.com/sanity-io/code-input/compare/v5.2.0...v5.2.1) (2025-08-08)
+
+### Bug Fixes
+
+- downgrade `@sanity/ui` to v2 ([9130875](https://github.com/sanity-io/code-input/commit/91308755beecadef82dfe303293b9707cfd58e86))
+
 ## [5.2.0](https://github.com/sanity-io/code-input/compare/v5.1.3...v5.2.0) (2025-07-31)
 
 ### Features
