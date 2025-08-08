@@ -5,6 +5,16 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0](https://github.com/sanity-io/code-input/compare/v5.2.1...v6.0.0) (2025-08-08)
+
+### ⚠ BREAKING CHANGES
+
+- **deps:** update dependency @sanity/ui to v3
+
+### Bug Fixes
+
+- **deps:** update dependency @sanity/ui to v3 ([1b1a619](https://github.com/sanity-io/code-input/commit/1b1a619b2edd3d5fc7ed400208a3bec084982f4a))
+
 ## [5.2.1](https://github.com/sanity-io/code-input/compare/v5.2.0...v5.2.1) (2025-08-08)
 
 ### Bug Fixes
