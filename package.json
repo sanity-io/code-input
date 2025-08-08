@@ -75,7 +75,7 @@
     "@lezer/highlight": "^1.2.1",
     "@sanity/icons": "^3.5.2",
     "@sanity/incompatible-plugin": "^1.0.4",
-    "@sanity/ui": "^2.16.12",
+    "@sanity/ui": "^3.0.5",
     "@uiw/codemirror-themes": "^4.23.6",
     "@uiw/react-codemirror": "^4.23.6"
   },
@@ -125,12 +125,13 @@
     "styled-components": "^5.2 || ^6"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20.19 >=22.12.0"
   },
   "sanityExchangeUrl": "https://www.sanity.io/plugins/code-input",
   "sanityPlugin": {
     "verifyPackage": {
-      "babelConfig": false
+      "babelConfig": false,
+      "nodeEngine": false
     }
   },
   "overrides": {
