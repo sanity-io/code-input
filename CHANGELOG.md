@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.1](https://github.com/sanity-io/code-input/compare/v6.0.0...v6.0.1) (2025-08-14)
+
+### Bug Fixes
+
+- allow v20 in node engines ([0d176e1](https://github.com/sanity-io/code-input/commit/0d176e13f9b63ba9488f92bf40295d17c1227b80))
+
 ## [6.0.0](https://github.com/sanity-io/code-input/compare/v5.2.1...v6.0.0) (2025-08-08)
 
 ### ⚠ BREAKING CHANGES
