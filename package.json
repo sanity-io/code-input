@@ -125,7 +125,7 @@
     "styled-components": "^5.2 || ^6"
   },
   "engines": {
-    "node": ">=20.19 >=22.12.0"
+    "node": ">=20.19 <22 || >=22.12"
   },
   "sanityExchangeUrl": "https://www.sanity.io/plugins/code-input",
   "sanityPlugin": {
