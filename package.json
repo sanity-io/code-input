@@ -88,6 +88,7 @@
     "@sanity/pkg-utils": "^7.11.5",
     "@sanity/plugin-kit": "^4.0.19",
     "@sanity/semantic-release-preset": "^5.0.0",
+    "@sanity/vision": "^4.10.3",
     "@testing-library/jest-dom": "^6.1.5",
     "@testing-library/react": "^14.1.2",
     "@types/jest": "^29.5.11",
