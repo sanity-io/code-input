@@ -113,7 +113,7 @@
     "react-dom": "^18.2.0",
     "react-is": "^18.2.0",
     "rimraf": "^5.0.5",
-    "sanity": "^4.3.0",
+    "sanity": "^4.10.3",
     "semantic-release": "^24.2.0",
     "styled-components": "^6.1.19",
     "ts-jest": "^29.1.1",
