@@ -4,7 +4,7 @@ import {studioTheme, ThemeProvider} from '@sanity/ui'
 import {act, render} from '@testing-library/react'
 import {Suspense} from 'react'
 
-import {useCodeMirror} from './useCodeMirror'
+import {CodeMirrorProxy, useMounted} from './useCodeMirror'
 
 describe('useCodeMirror - client', () => {
   let rafMock: jest.SpyInstance<number, [FrameRequestCallback]>
@@ -14,9 +14,8 @@ describe('useCodeMirror - client', () => {
       .spyOn(window, 'requestAnimationFrame')
       .mockImplementation((callback: FrameRequestCallback): number => {
         try {
-          // eslint-disable-next-line callback-return
           callback(0)
-        } catch (e) {
+        } catch {
           // CodeMirror does some mesurement shenanigance that json dont support
           // we just let it crash silently
         }
@@ -30,12 +29,12 @@ describe('useCodeMirror - client', () => {
 
   it('should render suspended codemirror editor', async () => {
     const TestComponent = () => {
-      const CodeMirror = useCodeMirror()
+      const mounted = useMounted()
       return (
         <Suspense fallback={'loading'}>
-          {CodeMirror && (
+          {mounted && (
             <ThemeProvider theme={studioTheme}>
-              <CodeMirror languageMode={'tsx'} />
+              <CodeMirrorProxy languageMode={'tsx'} />
             </ThemeProvider>
           )}
         </Suspense>

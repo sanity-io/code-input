@@ -1,6 +1,6 @@
 import {useCallback} from 'react'
 import {
-  FieldMember,
+  type FieldMember,
   type InputProps,
   MemberField,
   type MemberFieldProps,

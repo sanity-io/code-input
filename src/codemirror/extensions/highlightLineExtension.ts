@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-
 import {type Extension, StateEffect, StateField} from '@codemirror/state'
 import {Decoration, type DecorationSet, EditorView, lineNumbers} from '@codemirror/view'
 import type {ThemeContextValue} from '@sanity/ui'
@@ -56,6 +54,7 @@ export const lineHighlightField = StateField.define({
         add: highlights,
       })
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.error(e)
       return Decoration.none
     }
@@ -130,7 +129,7 @@ export const highlightLine = (config: HighlightLineConfig): Extension => {
               let isHighlighted = false
               editorView.state
                 .field(lineHighlightField)
-                .between(line.from, line.to, (from, to, value) => {
+                .between(line.from, line.to, (_from, _to, value) => {
                   if (value) {
                     isHighlighted = true
                     return false // stop iteration
@@ -163,7 +162,7 @@ export function setHighlightedLines(view: EditorView, highlightLines: number[]):
   const doc = view.state.doc
   const lines = doc.lines
   //1-based line numbers
-  const allLineNumbers = Array.from({length: lines}, (x, i) => i + 1)
+  const allLineNumbers = Array.from({length: lines}, (_x, i) => i + 1)
   view.dispatch({
     effects: allLineNumbers.map((lineNumber) => {
       const line = doc.line(lineNumber)

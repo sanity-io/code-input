@@ -1,13 +1,20 @@
 import {Box, Card, Stack, Text} from '@sanity/ui'
 import {Suspense, useCallback} from 'react'
-import {MemberField, ObjectInputProps, RenderInputCallback, set, setIfMissing, unset} from 'sanity'
-import styled, {css} from 'styled-components'
+import {
+  MemberField,
+  type ObjectInputProps,
+  type RenderInputCallback,
+  set,
+  setIfMissing,
+  unset,
+} from 'sanity'
+import {css, styled} from 'styled-components'
 
-import {useCodeMirror} from './codemirror/useCodeMirror'
+import {CodeMirrorProxy, useMounted} from './codemirror/useCodeMirror'
 import {useLanguageMode} from './codemirror/useLanguageMode'
 import {PATH_CODE} from './config'
 import {LanguageField} from './LanguageField'
-import {CodeInputValue, CodeSchemaType} from './types'
+import type {CodeInputValue, CodeSchemaType} from './types'
 import {focusRingBorderStyle, focusRingStyle} from './ui/focusRingStyle'
 import {useFieldMember} from './useFieldMember'
 
@@ -53,7 +60,7 @@ const EditorContainer = styled(Card)(({theme}) => {
 })
 
 /** @public */
-export function CodeInput(props: CodeInputProps) {
+export function CodeInput(props: CodeInputProps): React.JSX.Element {
   const {
     members,
     elementProps,
@@ -95,13 +102,13 @@ export function CodeInput(props: CodeInputProps) {
   )
   const {languages, language, languageMode} = useLanguageMode(props.schemaType, props.value)
 
-  const CodeMirror = useCodeMirror()
+  const mounted = useMounted()
 
   const renderCodeInput: RenderInputCallback = useCallback(
     (inputProps) => {
       return (
         <EditorContainer border overflow="hidden" radius={1} sizing="border" readOnly={readOnly}>
-          {CodeMirror && (
+          {mounted && (
             <Suspense
               fallback={
                 <Box padding={3}>
@@ -109,7 +116,7 @@ export function CodeInput(props: CodeInputProps) {
                 </Box>
               }
             >
-              <CodeMirror
+              <CodeMirrorProxy
                 languageMode={languageMode}
                 onChange={handleCodeChange}
                 value={inputProps.value as string}
@@ -125,14 +132,14 @@ export function CodeInput(props: CodeInputProps) {
       )
     },
     [
-      CodeMirror,
-      handleCodeChange,
-      handleCodeFocus,
-      onHighlightChange,
-      languageMode,
-      elementProps.onBlur,
       readOnly,
-      value,
+      mounted,
+      languageMode,
+      handleCodeChange,
+      value?.highlightedLines,
+      onHighlightChange,
+      handleCodeFocus,
+      elementProps.onBlur,
     ],
   )
 

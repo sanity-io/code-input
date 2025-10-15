@@ -1,11 +1,11 @@
 import {Box, Card, Flex, Label, Text} from '@sanity/ui'
 import {Suspense} from 'react'
-import {PreviewProps} from 'sanity'
-import styled from 'styled-components'
+import type {PreviewProps} from 'sanity'
+import {styled} from 'styled-components'
 
-import {useCodeMirror} from './codemirror/useCodeMirror'
+import {CodeMirrorProxy, useMounted} from './codemirror/useCodeMirror'
 import {useLanguageMode} from './codemirror/useLanguageMode'
-import {CodeInputValue, CodeSchemaType} from './types'
+import type {CodeInputValue, CodeSchemaType} from './types'
 
 const PreviewContainer = styled(Box)`
   position: relative;
@@ -25,7 +25,7 @@ export function PreviewCode(props: PreviewCodeProps) {
   const {selection, schemaType: type} = props
   const {languageMode} = useLanguageMode(type as CodeSchemaType, props.selection)
 
-  const CodeMirror = useCodeMirror()
+  const mounted = useMounted()
   return (
     <PreviewContainer>
       <Card padding={4}>
@@ -47,9 +47,9 @@ export function PreviewCode(props: PreviewCodeProps) {
             </Flex>
           </Card>
         ) : null}
-        {CodeMirror && (
+        {mounted && (
           <Suspense fallback={<Card padding={2}>Loading code preview...</Card>}>
-            <CodeMirror
+            <CodeMirrorProxy
               readOnly
               editable={false}
               value={selection?.code || ''}

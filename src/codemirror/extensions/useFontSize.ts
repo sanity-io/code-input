@@ -9,7 +9,7 @@ export function useFontSizeExtension(props: {fontSize: number}): Extension {
 
   return useMemo(() => {
     const {code: codeFont} = theme.sanity.fonts
-    const {fontSize, lineHeight} = codeFont.sizes[fontSizeProp] || codeFont.sizes[2]
+    const {fontSize, lineHeight} = codeFont.sizes[fontSizeProp] || codeFont.sizes[2]!
 
     return EditorView.baseTheme({
       '&': {

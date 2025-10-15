@@ -129,6 +129,7 @@ function useLanguageExtension(mode?: string) {
 
     const codeMode = modes.find((m) => m.name === mode)
     if (!codeMode?.loader) {
+      // eslint-disable-next-line no-console
       console.warn(
         `Found no codeMode for language mode ${mode}, syntax highlighting will be disabled.`,
       )
@@ -141,6 +142,7 @@ function useLanguageExtension(mode?: string) {
         }
       })
       .catch((e) => {
+        // eslint-disable-next-line no-console
         console.error(`Failed to load language mode ${mode}`, e)
         if (active) {
           setLanguageExtension(undefined)
