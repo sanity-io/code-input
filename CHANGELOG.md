@@ -1,5 +1,11 @@
 ## [6.0.1](https://github.com/sanity-io/code-input/compare/v6.0.0...v6.0.1) (2025-08-14)
 
+## 6.0.3
+
+### Patch Changes
+
+- [#93](https://github.com/sanity-io/code-input/pull/93) [`b0fcf3b`](https://github.com/sanity-io/code-input/commit/b0fcf3b7c6c30c7157bc0603a92d9524bcdd38b0) Thanks [@renovate](https://github.com/apps/renovate)! - chore(deps): update codemirror dependencies
+
 ## 6.0.2
 
 ### Patch Changes
