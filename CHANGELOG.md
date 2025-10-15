@@ -1,5 +1,11 @@
 ## [6.0.1](https://github.com/sanity-io/code-input/compare/v6.0.0...v6.0.1) (2025-08-14)
 
+## 6.0.2
+
+### Patch Changes
+
+- [#118](https://github.com/sanity-io/code-input/pull/118) [`e33ceda`](https://github.com/sanity-io/code-input/commit/e33ceda4e576ef9be69e8372cf662e6c098fc4b8) Thanks [@stipsan](https://github.com/stipsan)! - Replace `import styled from 'styled-components'` with `import {styled} from 'styled-components'`
+
 ### Bug Fixes
 
 - allow v20 in node engines ([0d176e1](https://github.com/sanity-io/code-input/commit/0d176e13f9b63ba9488f92bf40295d17c1227b80))
