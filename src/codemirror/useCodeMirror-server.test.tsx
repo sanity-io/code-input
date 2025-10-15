@@ -1,12 +1,12 @@
 import {renderToString} from 'react-dom/server'
 
-import {useCodeMirror} from './useCodeMirror'
+import {useMounted} from './useCodeMirror'
 
 describe('useCodeMirror - server', () => {
   it('should render null to string (and not throw and Error)', () => {
     const TestComponent = () => {
-      const Editor = useCodeMirror()
-      if (!Editor) {
+      const mounted = useMounted()
+      if (!mounted) {
         return null
       }
       throw new Error('editor should always be null in envs without window')

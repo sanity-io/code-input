@@ -1,12 +1,11 @@
-import {lazy, useEffect, useState} from 'react'
+import {lazy, startTransition, useEffect, useState} from 'react'
 
 export const CodeMirrorProxy = lazy(() => import('./CodeMirrorProxy'))
 
-export function useCodeMirror() {
+export function useMounted() {
   const [mounted, setMounted] = useState(false)
   useEffect(() => {
-    requestAnimationFrame(() => setMounted(true))
+    requestAnimationFrame(() => startTransition(() => setMounted(true)))
   }, [])
-
-  return mounted ? CodeMirrorProxy : null
+  return mounted
 }

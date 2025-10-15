@@ -24,18 +24,8 @@ export default defineConfig({
       },
     ],
   },
-  tasks: {
-    enabled: false,
-  },
-  scheduledPublishing: {
-    enabled: false,
-  },
-  announcements: {
-    enabled: false,
-  },
-  beta: {
-    create: {
-      startInCreateEnabled: false,
-    },
-  },
+  tasks: {enabled: false},
+  scheduledPublishing: {enabled: false},
+  announcements: {enabled: false},
+  beta: {create: {startInCreateEnabled: false}},
 })

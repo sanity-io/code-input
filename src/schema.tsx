@@ -1,10 +1,10 @@
 import {CodeBlockIcon} from '@sanity/icons'
-import {defineType, ObjectDefinition} from 'sanity'
+import {defineType, type ObjectDefinition} from 'sanity'
 
 import {CodeInput} from './CodeInput'
 import {getMedia} from './getMedia'
 import {PreviewCode} from './PreviewCode'
-import {CodeOptions} from './types'
+import type {CodeOptions} from './types'
 
 /**
  * @public
@@ -19,7 +19,7 @@ export interface CodeDefinition extends Omit<ObjectDefinition, 'type' | 'fields'
   options?: CodeOptions
 }
 
-declare module '@sanity/types' {
+declare module 'sanity' {
   // makes type: 'code' narrow correctly when using defineType/defineField/defineArrayMember
   export interface IntrinsicDefinitions {
     code: CodeDefinition

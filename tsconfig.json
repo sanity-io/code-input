@@ -1,9 +1,4 @@
 {
   "extends": "./tsconfig.settings",
-  "include": ["./package.config.ts", "sanity.cli.ts", "./sanity.config.ts", "./src", "./test"],
-  "compilerOptions": {
-    "rootDir": ".",
-    "jsx": "react-jsx",
-    "noEmit": true
-  }
+  "include": ["./package.config.ts", "sanity.cli.ts", "./sanity.config.ts", "./src", "./test"]
 }

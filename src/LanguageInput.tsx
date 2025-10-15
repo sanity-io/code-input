@@ -2,7 +2,7 @@ import {Select} from '@sanity/ui'
 import {type ChangeEvent, useCallback} from 'react'
 import {set, type StringInputProps, unset} from 'sanity'
 
-import {CodeInputLanguage} from './types'
+import type {CodeInputLanguage} from './types'
 
 export interface LanguageInputProps {
   language: string
