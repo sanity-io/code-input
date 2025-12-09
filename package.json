@@ -111,7 +111,7 @@
     "lint-staged": "^15.5.2",
     "npm-run-all2": "^5.0.0",
     "prettier": "^3.6.2",
-    "react": "^19.2.0",
+    "react": "19.2.1",
     "react-dom": "^19.2.0",
     "rimraf": "^5.0.5",
     "sanity": "^4.10.3",
@@ -121,7 +121,7 @@
     "typescript-eslint": "^8.46.1"
   },
   "peerDependencies": {
-    "react": "^18 || >=19.0.0-0",
+    "react": "19.2.1",
     "react-dom": "^18 || >=19.0.0-0",
     "sanity": "^3 || ^4.0.0-0",
     "styled-components": "^5.2 || ^6"
