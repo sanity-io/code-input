@@ -1,5 +1,11 @@
 ## [6.0.1](https://github.com/sanity-io/code-input/compare/v6.0.0...v6.0.1) (2025-08-14)
 
+## 6.0.4
+
+### Patch Changes
+
+- [#127](https://github.com/sanity-io/code-input/pull/127) [`0ea744f`](https://github.com/sanity-io/code-input/commit/0ea744f23f67dfa1ecaec28772595cff85c82eeb) Thanks [@rexxars](https://github.com/rexxars)! - fix: signal compatibility with sanity@5
+
 ## 6.0.3
 
 ### Patch Changes
